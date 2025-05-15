@@ -1,0 +1,46 @@
+
+=== Problem 1 Results ===
+
+== Part (b): Decision Tree with CrossValidator ==
+Best Parameters:
+- Impurity: entropy
+- Max Depth: 24
+- Max Bins: 100
+
+Test Metrics:
+- Area under ROC: 0.4636
+- Area under PR: 0.0777
+- Accuracy: 0.8847
+
+Execution Time: 5m 16s
+
+== Part (c): Decision Tree with TrainValidationSplit ==
+Best Parameters:
+- Impurity: entropy
+- Max Depth: 24
+- Max Bins: 100
+
+Test Metrics:
+- Area under ROC: 0.4636
+- Area under PR: 0.0777
+- Accuracy: 0.8847
+
+Execution Time: 1m 8s
+
+== Part (d): Random Forest with AgeCategory Target ==
+Best Parameters:
+- Impurity: gini
+- Max Depth: 12
+- Max Bins: 100
+- Num Trees: 20
+
+Test Metrics:
+- Accuracy: 0.1739
+- Weighted Precision: 0.1622
+- Weighted Recall: 0.1739
+- F1: 0.1416
+
+Execution Time: 30m 14s
+
+=== Total Execution Time ===
+36m 48s

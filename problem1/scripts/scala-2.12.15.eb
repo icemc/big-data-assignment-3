@@ -1,0 +1,27 @@
+easyblock = 'Tarball'
+
+name = 'Scala'
+version = '2.12.15'
+
+homepage = 'https://www.scala-lang.org/'
+description = 'Scala is a general-purpose programming language providing support for functional programming and a strong static type system.'
+
+toolchain = {'name': 'system', 'version': 'system'}
+
+sources = [
+    'scala-%(version)s.tgz',
+]
+
+source_urls = ['https://github.com/scala/scala/releases/download/v%(version)s']
+
+dependencies = []
+
+# Extract and copy everything into the installation directory
+installopts = 'cp -r * %(installdir)s && ln -sf %(installdir)s/bin/scala %(installdir)s/scala'
+
+sanity_check_paths = {
+    'files': ['bin/scala', 'bin/scalac'],
+    'dirs': [],
+}
+
+moduleclass = 'lang'

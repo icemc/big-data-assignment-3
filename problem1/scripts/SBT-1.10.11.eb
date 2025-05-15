@@ -1,0 +1,28 @@
+easyblock = 'Tarball'
+
+name = 'SBT'
+version = '1.10.11'
+
+homepage = 'https://www.scala-sbt.org'
+description = 'sbt is an open-source build tool for Scala and Java projects.'
+
+
+toolchain = {'name': 'system', 'version': 'system'}
+
+sources = [
+    'sbt-%(version)s.tgz',
+]
+
+source_urls = ['https://github.com/sbt/sbt/releases/download/v%(version)s']
+
+dependencies = []
+
+# Just copy the resulting sbt/ directory into the install location
+installopts = 'cp -r * %(installdir)s && ln -sf %(installdir)s/bin/sbt %(installdir)s/sbt'
+
+sanity_check_paths = {
+    'files': ['bin/sbt'],
+    'dirs': [],
+}
+
+moduleclass = 'devel'
