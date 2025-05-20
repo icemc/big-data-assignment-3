@@ -1,10 +1,11 @@
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.mllib.linalg.{Vectors, Matrix}
+import org.apache.spark.mllib.linalg.{Matrix, Matrices, Vectors}
 import org.apache.spark.mllib.linalg.distributed.RowMatrix
 import breeze.linalg.{DenseMatrix => BDenseMatrix, SparseVector => BSparseVector}
 
 import java.io._
+import scala.collection.{immutable, mutable}
 
 object SearchEngine {
   def main(args: Array[String]): Unit = {
@@ -22,10 +23,10 @@ object SearchEngine {
     val sc = spark.sparkContext
 
     // Load US matrix
-    val usData = sc.textFile(s"$modelDir/US").map(line => {
+    val usData = sc.textFile(s"$modelDir/US").map { line =>
       val arr = line.split(",").map(_.toDouble)
       Vectors.dense(arr)
-    })
+    }
     val US = new RowMatrix(usData)
 
     // Load V matrix
@@ -46,34 +47,40 @@ object SearchEngine {
     val docIds = docIdsReader.readObject().asInstanceOf[collection.Map[Long, String]]
     docIdsReader.close()
 
-    // Convert terms to vector
-    def termsToQueryVector(terms: Seq[String]): BSparseVector[Double] = {
-      val indices = terms.filter(idTerms.contains).map(idTerms).toArray
-      val values = terms.filter(idfs.contains).map(idfs).toArray
+    // Converting query terms to query vector - EXACTLY as in RunLSA
+    def termsToQueryVector(
+                            terms: Seq[String],
+                            idTerms: immutable.Map[String, Int],
+                            idfs: immutable.Map[String, Double]): BSparseVector[Double] = {
+      val indices = terms.filter(idTerms.contains).map(idTerms(_)).toArray
+      val values = terms.filter(idfs.contains).map(idfs(_)).toArray
       new BSparseVector[Double](indices, values, idTerms.size)
     }
 
-    // Perform search
-    def search(query: Seq[String], topN: Int = 10): Seq[(String, Double)] = {
-      val queryVec = termsToQueryVector(query)
+    // Implement topDocsForTermQuery function EXACTLY as in RunLSA
+    def topDocsForTermQuery(
+                             US: RowMatrix,
+                             V: Matrix,
+                             idTerms: immutable.Map[String, Int],
+                             idfs: immutable.Map[String, Double],
+                             docIds: collection.Map[Long, String],
+                             query: Seq[String],
+                             numResults: Int = 10): mutable.Seq[(String, Double)] = {
+      val queryVec = termsToQueryVector(query, idTerms, idfs)
       val breezeV = new BDenseMatrix[Double](V.numRows, V.numCols, V.toArray)
-      val projectedQuery = breezeV.t * queryVec
-
-      val queryMatrix = new org.apache.spark.mllib.linalg.DenseMatrix(projectedQuery.length, 1, projectedQuery.toArray)
-      val docScores = US.multiply(queryMatrix)
-
-
-      docScores.rows.map(_.toArray(0)).zipWithUniqueId()
-        .filter { case (_, id) => docIds.contains(id) }
-        .map { case (score, id) => (score, docIds(id)) }
-        .top(topN)(Ordering.by(_._1))
-        .map { case (score, doc) => (doc, score) }
+      val termRowArr = (breezeV.t * queryVec).toArray
+      val termRowVec = Matrices.dense(termRowArr.length, 1, termRowArr)
+      val docScores = US.multiply(termRowVec)
+      val allDocWeights = docScores.rows.map(_.toArray(0)).zipWithUniqueId()
+      allDocWeights.top(numResults).map {
+        case (score, id) => (docIds.getOrElse(id, "unknown"), score)
+      }
     }
 
     // Execute search for each query
     for (queryStr <- queryList) {
       val queryTerms = queryStr.toLowerCase.split("\\s+").toSeq
-      val results = search(queryTerms)
+      val results = topDocsForTermQuery(US, V, idTerms, idfs, docIds, queryTerms)
       println(s"\nTop results for: '$queryStr'")
       results.foreach { case (doc, score) => println(f"$doc: $score%.4f") }
     }

@@ -1,20 +1,18 @@
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SparkSession
-import org.apache.log4j.{Level, Logger}
-
-import scala.io.Source._
-import scala.collection.mutable._
-import java.util.Properties
-import edu.stanford.nlp.pipeline._
-import edu.stanford.nlp.ling.CoreAnnotations._
-import org.apache.spark.rdd._
-import org.apache.spark.mllib.linalg.{Matrix, SingularValueDecomposition, Vectors}
-import org.apache.spark.mllib.linalg.distributed.RowMatrix
 import breeze.linalg.{DenseMatrix => BDenseMatrix, SparseVector => BSparseVector}
-import org.apache.spark.mllib.linalg.{Matrices,Vector => MLLibVector}
+import edu.stanford.nlp.ling.CoreAnnotations._
+import edu.stanford.nlp.pipeline._
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.SparkConf
+import org.apache.spark.mllib.linalg.distributed.RowMatrix
+import org.apache.spark.mllib.linalg.{Matrices, Matrix, SingularValueDecomposition, Vectors, Vector => MLLibVector}
+import org.apache.spark.rdd._
+import org.apache.spark.sql.SparkSession
 
+import java.util.Properties
 import scala.collection.JavaConverters._
 import scala.collection.{immutable, mutable}
+import scala.collection.mutable._
+import scala.io.Source._
 
 object RunLSA {
   def main(args: Array[String]): Unit = {
@@ -220,6 +218,35 @@ object RunLSA {
       topDocs
     }
 
+    // Helper function for keyword searches
+    def termsToQueryVector(
+                            terms: immutable.Seq[String],
+                            idTerms: immutable.Map[String, Int],
+                            idfs: immutable.Map[String, Double]): BSparseVector[Double] = {
+      val indices = terms.filter(idTerms.contains).map(idTerms(_)).toArray
+      val values = terms.filter(idfs.contains).map(idfs(_)).toArray
+      new BSparseVector[Double](indices, values, idTerms.size)
+    }
+
+    def topDocsForTermQuery(
+                             US: RowMatrix,
+                             V: Matrix,
+                             idTerms: immutable.Map[String, Int],
+                             idfs: immutable.Map[String, Double],
+                             docIds: collection.Map[Long, String],
+                             query: immutable.Seq[String],
+                             numResults: Int = 10): mutable.Seq[(String, Double)] = {
+      val queryVec = termsToQueryVector(query, idTerms, idfs)
+      val breezeV = new BDenseMatrix[Double](V.numRows, V.numCols, V.toArray)
+      val termRowArr = (breezeV.t * queryVec).toArray
+      val termRowVec = Matrices.dense(termRowArr.length, 1, termRowArr)
+      val docScores = US.multiply(termRowVec)
+      val allDocWeights = docScores.rows.map(_.toArray(0)).zipWithUniqueId()
+      allDocWeights.top(numResults).map {
+        case (score, id) => (docIds.getOrElse(id, "unknown"), score)
+      }
+    }
+
     // Display top terms and docs in top concepts
     val topConceptTerms = topTermsInTopConcepts(svd, k, 25)
     val topConceptDocs = topDocsInTopConcepts(svd, k, 25)
@@ -241,10 +268,15 @@ object RunLSA {
       })
     }
 
-    // Prepare for search functionality
+    // Prepare for search functionality (test)
     val US = multiplyByDiagonalRowMatrix(svd.U, svd.s)
 
+    // Example search
+    val testQuery = List("serious", "incident")
+    val searchResults = topDocsForTermQuery(US, svd.V, idTerms, idfs, docIds, testQuery)
 
+    println(s"Search results for query '${testQuery.mkString(" ")}': ")
+    searchResults.foreach { case (doc, score) => println(f"$doc: $score%.4f") }
 
     // Save SVD components for use in search engine
     import java.io._

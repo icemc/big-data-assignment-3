@@ -56,8 +56,8 @@ DATA_PATH=${5:-$DEFAULT_DATA_PATH}
 STOPWORDS_PATH=${6:-$DEFAULT_STOPWORDS}
 
 # Validate class option
-if [[ "$CLASS" != "RunLSA" && "$CLASS" != "RunLSANLP" ]]; then
-  echo "Error: Invalid class '$CLASS'. Must be either RunLSA or RunLSANLP"
+if [[ "$CLASS" != "RunLSA" && "$CLASS" != "RunLSASimpleTokenizer" ]]; then
+  echo "Error: Invalid class '$CLASS'. Must be either RunLSA or RunLSASimpleTokenizer"
   usage
 fi
 

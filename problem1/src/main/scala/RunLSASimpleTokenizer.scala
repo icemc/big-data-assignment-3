@@ -48,12 +48,12 @@ object RunLSASimpleTokenizer {
         val title = s.substring(0, s.indexOf("\""))
         Array(id, url, title)
       } catch {
-        case e: Exception => Array("", "", "")
+        case _: Exception => Array("", "", "")
       }
     }
 
     def parse(lines: Array[String]): Array[(String, String)] = {
-      var docs = ArrayBuffer.empty[(String, String)]
+      val docs = ArrayBuffer.empty[(String, String)]
       var title = ""
       var content = ""
       for (line <- lines) {
@@ -69,7 +69,7 @@ object RunLSASimpleTokenizer {
             content += line + "\n"
           }
         } catch {
-          case e: Exception => content = ""
+          case _: Exception => content = ""
         }
       }
       docs.toArray
@@ -81,7 +81,7 @@ object RunLSASimpleTokenizer {
     println(s"Found $numFiles files to process")
 
     // Parse Wikipedia articles
-    val plainText = textFiles.flatMap { case (uri, text) => parse(text.split("\n")) }
+    val plainText = textFiles.flatMap { case (_, text) => parse(text.split("\n")) }
     val numDocs = plainText.count()
     println(s"Extracted $numDocs documents")
 
@@ -97,12 +97,12 @@ object RunLSASimpleTokenizer {
 
     def plainTextToTokens(text: String): mutable.Seq[String] = {
       val tokens = text.toLowerCase
-                       .split("\\s+")
-                       .filter(token =>
-                         token.length > 2 &&
-                         !bStopWords.value.contains(token) &&
-                         (WORD_PATTERN.matcher(token).matches() || NUMBER_PATTERN.matcher(token).matches())
-                       )
+        .split("\\s+")
+        .filter(token =>
+          token.length > 2 &&
+            !bStopWords.value.contains(token) &&
+            (WORD_PATTERN.matcher(token).matches() || NUMBER_PATTERN.matcher(token).matches())
+        )
       tokens
     }
 
@@ -117,10 +117,10 @@ object RunLSASimpleTokenizer {
       case (title, terms) => {
         val termFreqs = terms.foldLeft(new mutable.HashMap[String, Int]()) {
           (map, term) =>
-            {
-              map += term -> (map.getOrElse(term, 0) + 1)
-              map
-            }
+          {
+            map += term -> (map.getOrElse(term, 0) + 1)
+            map
+          }
         }
         (title, termFreqs)
       }
@@ -141,8 +141,8 @@ object RunLSASimpleTokenizer {
         (term, math.log(bNumDocs.value.toDouble / count))
     }.toMap
 
-    val idTerms: Predef.Map[String, Int] = idfs.keys.zipWithIndex.toMap
-    val termIds: Predef.Map[Int, String] = idTerms.map(_.swap)
+    val idTerms: immutable.Map[String, Int] = idfs.keys.zipWithIndex.toMap
+    val termIds: immutable.Map[Int, String] = idTerms.map(_.swap)
 
     val bIdfs = sc.broadcast(idfs).value
     val bIdTerms = sc.broadcast(idTerms).value
@@ -151,9 +151,9 @@ object RunLSASimpleTokenizer {
     val vecs = docTermFreqs.map(_._2).map(termFreqs => {
       val docTotalTerms = termFreqs.values.sum
       val termScores = termFreqs.filter {
-        case (term, freq) => bIdTerms.contains(term)
+        case (term, _) => bIdTerms.contains(term)
       }.map {
-        case (term, freq) => (bIdTerms(term), bIdfs(term) * termFreqs(term) / docTotalTerms)
+        case (term, freq) => (bIdTerms(term), bIdfs(term) * freq / docTotalTerms)
       }.toSeq
       Vectors.sparse(bIdTerms.size, termScores)
     }).cache()
@@ -168,8 +168,8 @@ object RunLSASimpleTokenizer {
 
     // Functions for querying results
     def topTermsInTopConcepts(
-      svd: SingularValueDecomposition[RowMatrix, Matrix],
-      numConcepts: Int, numTerms: Int): mutable.Seq[mutable.Seq[(String, Double)]] = {
+                               svd: SingularValueDecomposition[RowMatrix, Matrix],
+                               numConcepts: Int, numTerms: Int): mutable.Seq[mutable.Seq[(String, Double)]] = {
       val v = svd.V
       val topTerms = new ArrayBuffer[mutable.Seq[(String, Double)]]()
       val arr = v.toArray
@@ -186,10 +186,10 @@ object RunLSASimpleTokenizer {
     }
 
     def topDocsInTopConcepts(
-      svd: SingularValueDecomposition[RowMatrix, Matrix],
-      numConcepts: Int, numDocs: Int): Seq[Seq[(String, Double)]] = {
+                              svd: SingularValueDecomposition[RowMatrix, Matrix],
+                              numConcepts: Int, numDocs: Int): mutable.Seq[mutable.Seq[(String, Double)]] = {
       val u = svd.U
-      val topDocs = new ArrayBuffer[Seq[(String, Double)]]()
+      val topDocs = new ArrayBuffer[mutable.Seq[(String, Double)]]()
       for (i <- 0 until numConcepts) {
         val docWeights = u.rows.map(_.toArray(i)).zipWithUniqueId()
         topDocs += docWeights.top(numDocs).map {
@@ -212,9 +212,9 @@ object RunLSASimpleTokenizer {
 
     // Helper function for keyword searches
     def termsToQueryVector(
-      terms: immutable.Seq[String],
-      idTerms: immutable.Map[String, Int],
-      idfs: immutable.Map[String, Double]): BSparseVector[Double] = {
+                            terms: immutable.Seq[String],
+                            idTerms: immutable.Map[String, Int],
+                            idfs: immutable.Map[String, Double]): BSparseVector[Double] = {
       val indices = terms.filter(idTerms.contains).map(idTerms(_)).toArray
       val values = terms.filter(idfs.contains).map(idfs(_)).toArray
       new BSparseVector[Double](indices, values, idTerms.size)
@@ -248,11 +248,11 @@ object RunLSASimpleTokenizer {
       }
     }
 
-    // Prepare for search functionality
+    // Prepare for search functionality (test)
     val US = multiplyByDiagonalRowMatrix(svd.U, svd.s)
 
     // Example search
-    val testQuery = List("pope", "church")
+    val testQuery = List("serious", "incident")
     val searchResults = topDocsForTermQuery(US, svd.V, idTerms, idfs, docIds, testQuery)
 
     println(s"Search results for query '${testQuery.mkString(" ")}': ")
