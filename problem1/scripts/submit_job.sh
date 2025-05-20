@@ -1,72 +1,131 @@
 #!/bin/bash
-#SBATCH --job-name=hearth_disease_prediction
+#SBATCH --job-name=lsa_prediction
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=16
 #SBATCH --time=02:00:00
 #SBATCH --mem=16G
-#SBATCH --output=hearth_disease_%j.out
-#SBATCH --error=hearth_disease_%j.err
+#SBATCH --output=lsa_%j.out
+#SBATCH --error=lsa_%j.err
 
 # Load required modules
 module load env/release/2023b # To be able to load the Spark module
 module load devel/Spark/3.5.4-foss-2023b-Java-17
 module load tools/cURL/8.3.0-GCCcore-13.2.0  # Ensure curl is available
 
-# Get the directory where this script is located
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
+LIB_DIR="$PROJECT_ROOT/lib"
 
-# Phase 1: Data Download
-echo "=== PHASE 1: Downloading Kaggle Data ==="
-cd "$SCRIPT_DIR" || exit 1
+# Configuration - edit these values as needed
+JAR_FILE="../output/RunLSA.jar"                      # Path to your compiled JAR file
+DEFAULT_CLASS="RunLSA"                               # Default class to run
+DEFAULT_SAMPLE_SIZE="0.01"                           # Default sample size
+DEFAULT_NUM_TERMS="5000"                             # Default number of terms
+DEFAULT_K="25"                                       # Default number of topics
+DEFAULT_DATA_PATH="../../input/wikipedia/articles/*/*" # Default data path
+DEFAULT_STOPWORDS="../../input/wikipedia/stopwords.txt" # Default stopwords file
+SPARK_OPTS="--master local[*] --executor-memory 16G --driver-memory 16G"  # Spark configuration
+OUTPUT_DIR="results"                                 # Directory for log files
+mkdir -p "$OUTPUT_DIR"
 
-if [ -f "./download_data.sh" ]; then
-    echo "Starting data download..."
-    start_time=$SECONDS
+# Help function
+usage() {
+  echo "Usage: $0 [class] [sampleSize] [numTerms] [k] [dataPath] [stopwordsPath]"
+  echo "  class:           RunLSA (default) or RunLSASimpleTokenizer"
+  echo "  sampleSize:      Double (default: $DEFAULT_SAMPLE_SIZE)"
+  echo "  numTerms:        Integer (default: $DEFAULT_NUM_TERMS)"
+  echo "  k:               Integer (default: $DEFAULT_K)"
+  echo "  dataPath:        String (default: $DEFAULT_DATA_PATH)"
+  echo "  stopwordsPath:   String (default: $DEFAULT_STOPWORDS)"
+  echo ""
+  echo "Examples:"
+  echo "  $0 RunLSA 0.01 5000 25 \"../../input/wikipedia/articles/*/*\" \"../../input/wikipedia/stopwords.txt\""
+  echo "  $0 RunLSASimpleTokenizer 0.05 10000 50 \"/new/data/path\" \"/new/stopwords.txt\""
+  exit 1
+}
 
-    ./download_data.sh
-    DOWNLOAD_EXIT=$?
-
-    duration=$((SECONDS - start_time))
-    echo "Download completed in $duration seconds"
-
-    if [ $DOWNLOAD_EXIT -ne 0 ]; then
-        echo "Warning: Some downloads may have failed (exit code $DOWNLOAD_EXIT)"
-        # Continue anyway since partial data might be usable
+# Function to filter Spark logs
+filter_spark_logs() {
+  while IFS= read -r line; do
+    # Skip lines with Spark timestamps (##/##/## ##:##:##)
+    if [[ ! "$line" =~ ^[0-9]{2}/[0-9]{2}/[0-9]{2}\ [0-9]{2}:[0-9]{2}:[0-9]{2} ]]; then
+      echo "$line"
     fi
+  done
+}
 
-    # Verify extracted files
-    DATA_COUNT=$(find "../../input/Heart-Disease" -type f | wc -l)
-    echo "Found $DATA_COUNT data files in Heart-Disease directory"
-else
-    echo "Error: download_data.sh not found in $SCRIPT_DIR"
-    exit 1
+# Check if help is requested
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  usage
 fi
 
-# Phase 2: Run
-echo -e "\n=== PHASE 2: Run Phase ==="
-cd "$SCRIPT_DIR" || exit 1
+# Get parameters from command line or use defaults
+CLASS=${1:-$DEFAULT_CLASS}
+SAMPLE_SIZE=${2:-$DEFAULT_SAMPLE_SIZE}
+NUM_TERMS=${3:-$DEFAULT_NUM_TERMS}
+K=${4:-$DEFAULT_K}
+DATA_PATH=${5:-$DEFAULT_DATA_PATH}
+STOPWORDS_PATH=${6:-$DEFAULT_STOPWORDS}
 
-if [ -f "./run_shell.sh" ]; then
-    echo "Starting analysis..."
-    start_time=$SECONDS
-
-    ./run_shell.sh
-    RUN_EXIT=$?
-
-    duration=$((SECONDS - start_time))
-    echo "Analysis completed in $duration seconds"
-
-    if [ $RUN_EXIT -ne 0 ]; then
-        echo "Error: Run failed with exit code $RUN_EXIT"
-        exit $RUN_EXIT
-    fi
-else
-    echo "Error: run_shell.sh not found in $SCRIPT_DIR"
-    exit 1
+# Validate class option
+if [[ "$CLASS" != "RunLSA" && "$CLASS" != "RunLSASimpleTokenizer" ]]; then
+  echo "Error: Invalid class '$CLASS'. Must be either RunLSA or RunLSASimpleTokenizer"
+  usage
 fi
 
-echo -e "\n=== Job Completed Successfully ==="
-echo "Output available in:"
-echo "- Results: report.txt"
-echo "- Logs: hearth_disease_$SLURM_JOB_ID.{out,err}"
+# Validate JAR file exists
+if [ ! -f "$JAR_FILE" ]; then
+  echo "Error: JAR file not found at $JAR_FILE"
+  echo "Please edit the JAR_FILE variable in this script"
+  exit 1
+fi
+
+# Validate stopwords file exists
+if [ ! -f "$STOPWORDS_PATH" ]; then
+  echo "Error: Stopwords file not found at $STOPWORDS_PATH"
+  echo "Please either:"
+  echo "1) Pass a valid stopwords file path as argument, or"
+  echo "2) Edit the DEFAULT_STOPWORDS variable in this script"
+  exit 1
+fi
+
+# Create log file with timestamp
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+LOG_FILE="${OUTPUT_DIR}/${CLASS}_sample${SAMPLE_SIZE}_terms${NUM_TERMS}_k${K}_${TIMESTAMP}.log"
+
+# Record start time
+START_TIME=$(date +%s)
+
+# Run Spark job and log output
+{
+echo "Running $CLASS analysis with parameters:"
+echo "  JAR file:      $(realpath $JAR_FILE)"
+echo "  Class:         $CLASS"
+echo "  Sample size:   $SAMPLE_SIZE"
+echo "  Num terms:     $NUM_TERMS"
+echo "  k (topics):    $K"
+echo "  Data path:     $DATA_PATH"
+echo "  Stopwords:     $(realpath $STOPWORDS_PATH)"
+echo "  Spark opts:    $SPARK_OPTS"
+echo "----------------------------------------"
+
+spark-submit \
+  --class $CLASS \
+  --jars "$(echo $LIB_DIR/*.jar | tr ' ' ',')" \
+  $SPARK_OPTS \
+  $JAR_FILE \
+  $SAMPLE_SIZE \
+  $NUM_TERMS \
+  $K
+#  $DATA_PATH \
+#  $STOPWORDS_PATH
+
+# Calculate runtime
+END_TIME=$(date +%s)
+RUNTIME=$((END_TIME - START_TIME))
+
+echo "----------------------------------------"
+echo "Runtime: $RUNTIME seconds"
+} 2>&1 | filter_spark_logs | tee "$LOG_FILE"
+
 exit 0
