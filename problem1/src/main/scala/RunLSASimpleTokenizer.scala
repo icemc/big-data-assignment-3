@@ -129,7 +129,7 @@ object RunLSASimpleTokenizer {
     docTermFreqs.count() // Force evaluation
 
     // Calculate document frequencies
-    val docIds: collection.Map[Long, String] = docTermFreqs.map(_._1).zipWithUniqueId().map(_.swap).collectAsMap()
+    val docIds = docTermFreqs.map(_._1).zipWithUniqueId().map(_.swap).collectAsMap()
     val docFreqs = docTermFreqs.flatMap(_._2.keySet).map((_, 1)).reduceByKey(_ + _, 24)
 
     val ordering = Ordering.by[(String, Int), Int](_._2)
@@ -153,7 +153,7 @@ object RunLSASimpleTokenizer {
       val termScores = termFreqs.filter {
         case (term, _) => bIdTerms.contains(term)
       }.map {
-        case (term, freq) => (bIdTerms(term), bIdfs(term) * freq / docTotalTerms)
+        case (term, _) => (bIdTerms(term), bIdfs(term) * termFreqs(term) / docTotalTerms)
       }.toSeq
       Vectors.sparse(bIdTerms.size, termScores)
     }).cache()
@@ -199,17 +199,6 @@ object RunLSASimpleTokenizer {
       topDocs
     }
 
-    // Display top terms and docs in top concepts
-    val topConceptTerms = topTermsInTopConcepts(svd, k, 25)
-    val topConceptDocs = topDocsInTopConcepts(svd, k, 25)
-
-    println("Top terms and documents in top concepts:")
-    for (i <- 0 until math.min(k, 25)) {
-      println(s"Concept $i terms: ${topConceptTerms(i).map(_._1).mkString(", ")}")
-      println(s"Concept $i docs: ${topConceptDocs(i).map(_._1).mkString(", ")}")
-      println()
-    }
-
     // Helper function for keyword searches
     def termsToQueryVector(
                             terms: immutable.Seq[String],
@@ -218,15 +207,6 @@ object RunLSASimpleTokenizer {
       val indices = terms.filter(idTerms.contains).map(idTerms(_)).toArray
       val values = terms.filter(idfs.contains).map(idfs(_)).toArray
       new BSparseVector[Double](indices, values, idTerms.size)
-    }
-
-    def multiplyByDiagonalRowMatrix(mat: RowMatrix, diag: MLLibVector): RowMatrix = {
-      val sArr = diag.toArray
-      new RowMatrix(mat.rows.map { vec =>
-        val vecArr = vec.toArray
-        val newArr = (0 until vec.size).toArray.map(i => vecArr(i) * sArr(i))
-        Vectors.dense(newArr)
-      })
     }
 
     def topDocsForTermQuery(
@@ -246,6 +226,26 @@ object RunLSASimpleTokenizer {
       allDocWeights.top(numResults).map {
         case (score, id) => (docIds.getOrElse(id, "unknown"), score)
       }
+    }
+
+    // Display top terms and docs in top concepts
+    val topConceptTerms = topTermsInTopConcepts(svd, k, 25)
+    val topConceptDocs = topDocsInTopConcepts(svd, k, 25)
+
+    println("Top terms and documents in top concepts:")
+    for (i <- 0 until math.min(k, 25)) {
+      println(s"Concept $i terms: ${topConceptTerms(i).map(_._1).mkString(", ")}")
+      println(s"Concept $i docs: ${topConceptDocs(i).map(_._1).mkString(", ")}")
+      println()
+    }
+
+    def multiplyByDiagonalRowMatrix(mat: RowMatrix, diag: MLLibVector): RowMatrix = {
+      val sArr = diag.toArray
+      new RowMatrix(mat.rows.map { vec =>
+        val vecArr = vec.toArray
+        val newArr = (0 until vec.size).toArray.map(i => vecArr(i) * sArr(i))
+        Vectors.dense(newArr)
+      })
     }
 
     // Prepare for search functionality (test)
