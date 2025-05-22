@@ -6,6 +6,7 @@ PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
 LIB_DIR="$PROJECT_ROOT/lib"
 OUTPUT_DIR="$PROJECT_ROOT/output"
 SRC_DIR="$PROJECT_ROOT/src/main/scala"
+FAT_JAR_NAME="RunLSA.jar"
 
 # Stanford CoreNLP JARs to download
 STANFORD_JARS=(
@@ -19,8 +20,8 @@ if [ -z "$SPARK_HOME" ]; then
   exit 1
 fi
 
-# Create lib directory if it doesn't exist
-mkdir -p "$LIB_DIR"
+# Create required directories
+mkdir -p "$LIB_DIR" "$OUTPUT_DIR/classes" "$OUTPUT_DIR/tmp"
 
 # Download required JAR files if they don't exist
 for jar_url in "${STANFORD_JARS[@]}"; do
@@ -43,16 +44,28 @@ CLASSPATH=$(find "$SPARK_HOME/jars" -name "*.jar" | tr '\n' ':')
 LIB_CLASSPATH=$(find "$LIB_DIR" -name "*.jar" | tr '\n' ':')
 CLASSPATH="${CLASSPATH}${LIB_CLASSPATH}"
 
-# Create output directory
-mkdir -p "$OUTPUT_DIR"
-
 # Compile Scala sources
 echo "Compiling Scala sources..."
-scalac -classpath "$CLASSPATH" "$SRC_DIR"/*.scala -d "$OUTPUT_DIR"
+scalac -classpath "$CLASSPATH" "$SRC_DIR"/*.scala -d "$OUTPUT_DIR/classes"
 
-# Package classes into a JAR
-cd "$OUTPUT_DIR" || exit 1
-echo "Creating RunLSA.jar..."
-jar -cvf RunLSA.jar *.class
+# Copy compiled class files to tmp for fat jar
+cp -r "$OUTPUT_DIR/classes/"* "$OUTPUT_DIR/tmp"
 
-echo "Build complete: $OUTPUT_DIR/RunLSA.jar"
+# Extract all classes from library jars into tmp using jar tool (no unzip)
+for jar_file in "$LIB_DIR"/*.jar; do
+  echo "Extracting $(basename "$jar_file")..."
+  (cd "$OUTPUT_DIR/tmp" && jar xf "$jar_file")
+done
+
+# Create fat JAR
+cd "$OUTPUT_DIR/tmp" || exit 1
+echo "Creating fat JAR: $FAT_JAR_NAME"
+jar -cvf "../$FAT_JAR_NAME" .
+
+
+# Clean up temporary files
+echo "Cleaning up..."
+rm -rf "$OUTPUT_DIR/tmp"
+rm -rf "$OUTPUT_DIR/classes"
+
+echo "Fat JAR build complete: $OUTPUT_DIR/$FAT_JAR_NAME"

@@ -98,9 +98,8 @@ echo "  Queries:    $QUERIES"
 echo "  Spark opts: $SPARK_OPTS"
 echo "----------------------------------------"
 
-"$SPARK_HOME/bin/spark-submit" \
+spark-submit \
   --class "SearchEngine" \
-  --jars "$(echo "$LIB_DIR"/*.jar | tr ' ' ',')" \
   $SPARK_OPTS \
   "$JAR_FILE" \
   "$MODEL_DIR" \

@@ -1,8 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
-LIB_DIR="$PROJECT_ROOT/lib"
+LIB_DIR="../lib"
 
 # Configuration - edit these values as needed
 JAR_FILE="../output/RunLSA.jar"                      # Path to your compiled JAR file
@@ -99,7 +97,6 @@ echo "----------------------------------------"
 
 spark-submit \
   --class $CLASS \
-  --jars "$(echo $LIB_DIR/*.jar | tr ' ' ',')" \
   $SPARK_OPTS \
   $JAR_FILE \
   $SAMPLE_SIZE \

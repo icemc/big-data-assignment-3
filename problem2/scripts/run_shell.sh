@@ -2,7 +2,7 @@
 
 # Configuration - edit these values as needed
 SPARK_SCRIPT_DIRECTORY="../src/main/scala"
-SPARK_SCRIPT="WeatherPrediction"          # Path to your spark Script
+SPARK_SCRIPT="RunLSA"          # Path to your spark Script
 SPARK_OPTS="--master local[*] --executor-memory 16G --driver-memory 16G"  # Spark configuration
 
 
