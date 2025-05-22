@@ -8,16 +8,13 @@
 #SBATCH --error=wikipedia_movie_plot_%j.err
 
 # Load required modules
-module load env/release/2023b # To be able to load the Spark module
 module load devel/Spark/3.5.4-foss-2023b-Java-17
 module load tools/cURL/8.3.0-GCCcore-13.2.0  # Ensure curl is available
 
 # Get the directory where this script is located
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
 # Phase 1: Data Download
 echo "=== PHASE 1: Downloading Kaggle Data ==="
-cd "$SCRIPT_DIR" || exit 1
 
 if [ -f "./download_data.sh" ]; then
     echo "Starting data download..."
@@ -38,13 +35,12 @@ if [ -f "./download_data.sh" ]; then
     DATA_COUNT=$(find "../../input/movie_plots" -type f | wc -l)
     echo "Found $DATA_COUNT data files in movie_plots directory"
 else
-    echo "Error: download_data.sh not found in $SCRIPT_DIR"
+    echo "Error: download_data.sh not found"
     exit 1
 fi
 
 # Phase 2: Run
 echo -e "\n=== PHASE 2: Run Phase ==="
-cd "$SCRIPT_DIR" || exit 1
 
 if [ -f "./run_shell.sh" ]; then
     echo "Starting analysis..."
@@ -61,7 +57,7 @@ if [ -f "./run_shell.sh" ]; then
         exit $RUN_EXIT
     fi
 else
-    echo "Error: run_shell.sh not found in $SCRIPT_DIR"
+    echo "Error: run_shell.sh not found"
     exit 1
 fi
 

@@ -12,6 +12,7 @@ import edu.stanford.nlp.ling.CoreAnnotations._
 import scala.collection.JavaConverters._
 import scala.collection.{immutable, mutable}
 
+
 val dataPath = "../../input/movie_plots/wiki_movie_plots_deduped.csv"
 val stopwordsPath = "../../input/stopwords.txt"
 
@@ -37,10 +38,10 @@ val moviePlotsDF = spark.read
   .option("header", "true")
   .option("quote", "\"")
   .option("escape", "\"")
+  .option("multiLine", "true")
   .schema(movieSchema)
   .csv(dataPath)
   .select("Title", "Genre", "Plot")
-  .filter($"Plot".isNotNull) // Filter out empty or very short plots
 
 // Cache the DataFrame for better performance
 moviePlotsDF.cache()
@@ -304,10 +305,7 @@ def runKeywordQuery(keywords: immutable.Seq[String]): Unit = {
   val results = topDocsForTermQuery(US, svd.V, queryVec)
 
   results.foreach { case (title, genre, score) =>
-    println(f"Title: $title")
-    println(f"Score: $score%.4f")
-    println(f"Genre: $genre")
-    println("---")
+    println(f"Title: $title (Score: $score%.4f , Genre: $genre)")
   }
 }
 

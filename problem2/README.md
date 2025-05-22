@@ -1,21 +1,19 @@
-# NOAA Weather Prediction Analysis
+# Wikipedia Movie Plots - Latent Semantic Analysis (LSA)
 
-Predict Luxembourg air temperatures using historical NOAA weather data with Spark-based machine learning models (Linear Regression and Random Forest).
+This Scala Spark project performs Latent Semantic Analysis (LSA) on the Wikipedia Movie Plots dataset using Stanford CoreNLP and Apache Spark's distributed capabilities. It supports keyword-based searches that return semantically relevant movie plots along with their genres.
 
-## 📋 Project Objective
-Build predictive models for Luxembourg temperatures using:
-- 77 years of NOAA station data (1949-2025)
-- Spark ML for distributed processing
 
 **Key Features**:
 - Automated data pipeline (download → process → analyze)
-- Comparative analysis of Linear Regression vs Random Forest
+- Builds a term-document matrix with TF-IDF scores.
+- Performs Singular Value Decomposition (SVD) to extract latent semantic structures.
+- Returns most relevant movie plots for a given keyword query.
+- Displays most relevant terms and documents per latent concept.
 - Cluster-ready implementation for HPC systems
 
 ## ⚙️ Requirements
 - **Java**: 8+ (Recommended: JDK 17)
 - **Spark**: 3.5.4+
-- **Python**: 3.8+ (Optional for visualization)
 - **Storage**: ~5GB disk space for raw data
 - **Memory**: 16GB+ recommended
 
@@ -23,19 +21,17 @@ Build predictive models for Luxembourg temperatures using:
 ```text
 root/
 │── input/
-│   └── NOAA-065900/                # Processed data (auto-created)
+│   └── movie_plots/                    # Processed data (auto-created after running download_data.sh)
 └── problem2/
-    ├── src/                        # Scala source code
+    ├── src/                            # Scala source code
     ├── scripts/
-    │   ├── report.txt              # Results summary (generated when using run.sh)
-    │   ├── build.sh                # Compilation script
-    │   ├── run.sh                  # Analysis execution
-    │   ├── download_noaa_data.sh   # Data downloader
-    │   ├── submit_local.sh         # Local pipeline runner
-    │   └── submit_job.sh           # HPC job submission
+    │   ├── build.sh                    # Compilation script
+    │   ├── run.sh                      # Analysis execution
+    │   ├── download_data.sh            # Data downloader (required jars + dataset)
+    │   ├── submit_local.sh             # Local pipeline runner
+    │   └── submit_job.sh               # HPC job submission
     └── output/
-        ├── report.txt              # Results summary (if running from output directory)
-        └── WeatherPrediction.jar   # Compiled JAR
+        └── WikipediaMoviePlotLSA.jar   # Compiled JAR
 ```
 
 ## 🚀 Quick Start
@@ -43,7 +39,13 @@ root/
 Navigate to scripts directory and run
 
 ```bash
-chmod +x *.sh
+cd scripts
+```
+
+Then elevate the permissions of all the scripts
+
+```bash
+chmod +x *
 ```
 
 
@@ -74,9 +76,20 @@ chmod +x *.sh
 ### Option 2: HPC Execution
 
 #### 1. Run all stages by submitting a bash script
+
+Create an interactive session by running the following on the HPC command line
+
+```bash
+salloc -p interactive --qos debug --time=2:00:00 -N 1 -n 1 -c 32
+```
+Then run the job interactively. This will download all required files including dataset and dependent jars before running.
+
 ```bash
 ./submit_job.sh
 ```
+
+## Script summary
+
 
 | Script                  | Purpose                                   |
 |-------------------------|-------------------------------------------|
@@ -84,106 +97,39 @@ chmod +x *.sh
 | `build.sh`              | Compiles project to JAR                   |
 | `run.sh`                | Executes Spark analysis                   |
 | `submit_local.sh`       | Local run wrapper (download+build+run)    |
-| `submit_job.sbatch`     | HPC job submission script                 |
+| `submit_job.sh`         | HPC job submission script                 |
+-----------------------------------------------------------------------
 
 ## 📊 Sample Results
 
-Result analysis will be saved in `scripts/report.txt` file after job has completed.
+Result analysis will be saved in `scripts/result/<timestamp>.log` file after job has completed.
 
 ```text
-=== Weather Prediction Analysis Report ===
-Generated: 2025-04-24T23:44:48.412
+===== Query: robot future =====
+Title: Who Goes Next? (Score: 0.0387 , Genre: war)
+Title: The Hook (Score: 0.0384 , Genre: war)
+Title: Neutral Port (Score: 0.0333 , Genre: war)
+Title: To End All Wars (Score: 0.0323 , Genre: war)
+Title: The Space Children (Score: 0.0318 , Genre: sci-fi)
+Title: Escape to Danger (Score: 0.0315 , Genre: thriller)
+Title: General Post (Score: 0.0312 , Genre: drama)
+Title: An Inaccurate Memoir (Score: 0.0305 , Genre: drama / action / war)
+Title: Rengō Kantai Shirei Chōkan: Yamamoto Isoroku (Score: 0.0296 , Genre: war drama)
+Title: Steel Rain (Score: 0.0268 , Genre: unknown)
 
-1. DATA SUMMARY:
-----------------
-- Total records processed: 1169099
-- Training period: 1949-2023 (1136215 records)
-- Validation year: 2024 (25208 records)
-- Test year: 2025 (7676 records)
-
-2. MODEL PERFORMANCE:
---------------------
-Linear Regression:
-- Validation RMSE (2024): 6.725581015653365
-- Test RMSE (2025): 6.6303073685074105
-- Training time: 4.49 seconds
-
-Random Forest:
-- Validation RMSE (2024): 2.7608975405216385
-- Test RMSE (2025): 2.735520108777691
-- Training time: 5.72 seconds
-
-3. PERFORMANCE COMPARISON:
--------------------------
-Random Forest was slower to train
-but achieved better accuracy
-
-4. FEATURE ANALYSIS:
--------------------
-Feature Importances (Random Forest):
-  - dew_point       0.6047
-  - month           0.2693
-  - ceiling_height  0.0566
-  - visibility      0.0337
-  - hour            0.0274
-  - wind_direction  0.0056
-  - year            0.0012
-  - wind_speed      0.0008
-  - day             0.0006
-  - elevation       0.0001
-  - latitude        0.0000
-  - longitude       0.0000
-
-Temperature Correlations:
-  - ceiling_height  0.2332
-  - month           0.1772
-  - dew_point       0.1241
-  - hour            0.1098
-  - year            0.1016
-  - elevation       -0.0834
-  - visibility      0.0814
-  - wind_direction  0.0486
-  - latitude        0.0302
-  - longitude       -0.0129
-  - day             0.0119
-  - wind_speed      -0.0033
-
-Strongest Correlation: ceiling_height (0.23317322861487194)
-
-5. OBSERVATIONS:
----------------
-The Random Forest model outperformed Linear Regression
-
-Key Findings:
-1. The most predictive feature was dew_point
-2. Temperature shows strongest correlation with ceiling_height
-3. Model performance difference: 3.8947872597297195 RMSE
-
-6. SAMPLE PREDICTIONS:
----------------------
-First 10 test predictions (Linear Regression):
-----------------------------------------------
-1/1/2025 0:00 | Actual: -0.9°C | Predicted: 9.8°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: 6.0°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: 9.8°C
-1/1/2025 1:00 | Actual: -0.5°C | Predicted: 9.9°C
-1/1/2025 1:00 | Actual: -1.0°C | Predicted: 9.8°C
-1/1/2025 1:00 | Actual: 0.0°C | Predicted: 9.9°C
-1/1/2025 2:00 | Actual: -0.5°C | Predicted: 10.0°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 9.9°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 6.2°C
-1/1/2025 3:00 | Actual: -0.4°C | Predicted: 10.1°C
-
-
-First 10 test predictions (Random Forest):
-1/1/2025 0:00 | Actual: -0.9°C | Predicted: -0.2°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: -0.3°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: -0.5°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: -1.0°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: 0.0°C | Predicted: 0.7°C
-1/1/2025 2:00 | Actual: -0.5°C | Predicted: -0.2°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 0.7°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: -0.2°C
-1/1/2025 3:00 | Actual: -0.4°C | Predicted: -0.2°C
+===== Query: western cowboy =====
+Title: Let 'Em Have It (Score: 0.0581 , Genre: crime)
+Title: The Man They Couldn't Arrest (Score: 0.0436 , Genre: drama)
+Title: Dakota Lil (Score: 0.0405 , Genre: western)
+Title: Lal Dupatta Malmal Ka (Score: 0.0403 , Genre: unknown)
+Title: Oklahoma Cyclone (Score: 0.0390 , Genre: western)
+Title: Border Law (Score: 0.0366 , Genre: western)
+Title: Oliver Twist (Score: 0.0363 , Genre: literary drama)
+Title: The Man Outside (Score: 0.0357 , Genre: crime)
+Title: Outside the Law (Score: 0.0356 , Genre: film noir)
+Title: The Fire Raisers (Score: 0.0343 , Genre: drama)
+----------------------------------------
+Analysis complete
+Runtime: 353 seconds
+----------------------------------------
 ```

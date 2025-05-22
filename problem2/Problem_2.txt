@@ -3,8 +3,8 @@
 
 OS Name:	                        Ubuntu-24.04
 System Model:	                    Blade 15 (2022) - RZ09-0421
-Processor:	                        12th Gen Intel(R) Core(TM) i7-12800H, 2400 Mhz, 14 Core(s), 20 Logical Processor(s)
-GPU:                                NVIDIA GeForce RTX 3070 Ti
+Processor:	                      12th Gen Intel(R) Core(TM) i7-12800H, 2400 Mhz, 14 Core(s), 20 Logical Processor(s)
+GPU:                              NVIDIA GeForce RTX 3070 Ti
 Installed Physical Memory (RAM):	64.0 GB
 
 2. Running the scripts
@@ -15,7 +15,7 @@ All required scripts are found in ./scripts directory
 -----------------------------------------------------------------------
 | Script                  | Purpose                                   |
 |-------------------------|-------------------------------------------|
-| `download_noaa_data.sh` | Downloads and extracts the input data     |
+| `download_data.sh`      | Downloads and extracts the input data     |
 | `build.sh`              | Compiles project to JAR                   |
 | `run.sh`                | Executes Spark analysis                   |
 | `submit_local.sh`       | Local run wrapper (download+build+run)    |
@@ -29,7 +29,7 @@ Elevate required scripts permissions
 
 Navigate to the scripts directory and execute the command
 
-chmod +x *.sh
+chmod +x *
 
 i. Running Locally
 -------------------
@@ -51,104 +51,783 @@ Then execute the job
 3. Total Execution Time
 -----------------------
 
-5m 20s
+353 seconds (local), 
 
 4. Sample Result
 ----------------
 
-=== Weather Prediction Analysis Report ===
-Generated: 2025-04-20T02:51:44.350
+===== Top Documents with Genres in Top Concepts =====
+Concept 0:
+  Haathkadi (Score: 0.0000) - Genres: family, thriller, drama
+  Jadu Tona (Score: 0.0000) - Genres: unknown
+  If I Were Rich (Score: -0.0014) - Genres: comedy
+  MGR Nagaril (Score: -0.0015) - Genres: unknown
+  McGlusky the Sea Rover (Score: -0.0018) - Genres: adventure
+  Tenchi Meisatsu (Score: -0.0020) - Genres: drama
+  Being Caribou (Score: -0.0020) - Genres: national film board documentary
+  Desi Kattey (Score: -0.0021) - Genres: drama/action
+  Nomugi Pass (Score: -0.0021) - Genres: unknown
+  A Tale of Two Mice (Score: -0.0023) - Genres: animated
+  The Horde (Score: -0.0024) - Genres: unknown
+  Dilwaala (Score: -0.0024) - Genres: unknown
+  Treasure of the Golden Condor (Score: -0.0024) - Genres: adventure
+  They Were So Young (Score: -0.0025) - Genres: drama
+  Many Tanks Mr. Atkins (Score: -0.0025) - Genres: comedy
+  The Groove Tube (Score: -0.0026) - Genres: unknown
+  Music in the Air (Score: -0.0027) - Genres: musical
+  Saka - Nankana Sahib De Shaheed (Score: -0.0027) - Genres: action
+  Three Arabian Nuts (Score: -0.0028) - Genres: comedy
+  Sri Simhachala Kshetra Mahima (Score: -0.0028) - Genres: unknown
+  Don't Be a Sucker (Score: -0.0028) - Genres: propaganda
+  Frontier Badmen (Score: -0.0028) - Genres: western
+  Werewolf (Score: -0.0028) - Genres: drama
+  Canyon River (Score: -0.0029) - Genres: western
+  Cry of the Hunted (Score: -0.0029) - Genres: crime thriller
+Concept 1:
+  Santrash (Score: 0.2368) - Genres: unknown
+  Suraj (Score: 0.1863) - Genres: action
+  Rasta (Score: 0.1846) - Genres: unknown
+  Jagir (Score: 0.1448) - Genres: action, crime, drama
+  Bangali Babu (Score: 0.1434) - Genres: romance
+  Do Numbri (Score: 0.1398) - Genres: unknown
+  Devta (Score: 0.1398) - Genres: action
+  Guru (2003 film) (Score: 0.1297) - Genres: unknown
+  Jeene Ki Arzoo (Score: 0.1177) - Genres: romance
+  Guneghar (Score: 0.1149) - Genres: unknown
+  Sanyasi Mera Naam (Score: 0.1108) - Genres: action
+  Aar Paar (Score: 0.1100) - Genres: unknown
+  Pyar Ka Karz (Score: 0.1100) - Genres: unknown
+  Pyar Ke Naam Qurbaan (Score: 0.1086) - Genres: action, crime, drama, romance
+  Woh Jo Hasina (Score: 0.1041) - Genres: romance
+  Kranti Kshetra (Score: 0.1026) - Genres: action
+  Gudia (Score: 0.0987) - Genres: unknown
+  Patita (Score: 0.0940) - Genres: unknown
+  Jurmana (Score: 0.0939) - Genres: action
+  Kalankini Kankabati (Score: 0.0916) - Genres: unknown
+  Romance (Score: 0.0909) - Genres: romance
+  Billa No. 786 (Score: 0.0888) - Genres: action
+  Maa Kasam (Score: 0.0878) - Genres: action
+  Nishana (Score: 0.0840) - Genres: drama, family
+  Sameera (Score: 0.0829) - Genres: unknown
+Concept 2:
+  Santrash (Score: 0.1738) - Genres: unknown
+  Rasta (Score: 0.1344) - Genres: unknown
+  Suraj (Score: 0.1300) - Genres: action
+  Jagir (Score: 0.1022) - Genres: action, crime, drama
+  Do Numbri (Score: 0.1003) - Genres: unknown
+  Devta (Score: 0.1003) - Genres: action
+  Bangali Babu (Score: 0.0999) - Genres: romance
+  The Bowling Alley Cat (Score: 0.0979) - Genres: animated short
+  Guru (2003 film) (Score: 0.0921) - Genres: unknown
+  Tom and Jerry in the Hollywood Bowl (Score: 0.0907) - Genres: animation
+  Cruise Cat (Score: 0.0902) - Genres: animation
+  Boss of Bullion City (Score: 0.0884) - Genres: western
+  The Invisible Mouse (Score: 0.0874) - Genres: animated
+  Pup on a Picnic (Score: 0.0860) - Genres: animation
+  Salt Water Tabby (Score: 0.0855) - Genres: animated
+  Jeene Ki Arzoo (Score: 0.0837) - Genres: romance
+  Pent-House Mouse (Score: 0.0831) - Genres: animated
+  Posse Cat (Score: 0.0828) - Genres: animated short
+  Cue Ball Cat (Score: 0.0826) - Genres: animation
+  Tennis Chumps (Score: 0.0820) - Genres: animated
+  Puss 'n' Toots (Score: 0.0807) - Genres: short animation
+  The Flying Cat (Score: 0.0807) - Genres: animation
+  Jerry and the Goldfish (Score: 0.0806) - Genres: animation
+  Professor Tom (Score: 0.0800) - Genres: animated short
+  Sanyasi Mera Naam (Score: 0.0797) - Genres: action
+Concept 3:
+  Kaaval Nilayam (Score: 0.0592) - Genres: unknown
+  Nallavan (Score: 0.0582) - Genres: unknown
+  Mr. Marumakan (മിസ്റ്റർ മരുമകൻ) (Score: 0.0549) - Genres: masala
+  Unakkaga Naan (Score: 0.0531) - Genres: unknown
+  Unakkaga Mattum (Score: 0.0525) - Genres: unknown
+  President Gari Pellam (Score: 0.0521) - Genres: unknown
+  Vishaka Express (Score: 0.0499) - Genres: thriller
+  Bahaar Aane Tak (Score: 0.0473) - Genres: family
+  Rajadhi Raja (Score: 0.0472) - Genres: action
+  Amar Deep (Score: 0.0464) - Genres: romantic, drama
+  Radha Krishna (Score: 0.0449) - Genres: religious
+  Jab Jab Phool Khile (Score: 0.0448) - Genres: musical
+  Kondaveeti Raja (Score: 0.0446) - Genres: unknown
+  Thaayin Madiyil (Score: 0.0441) - Genres: unknown
+  Aflatoon (Score: 0.0440) - Genres: action
+  Kondapalli Raja (Score: 0.0440) - Genres: unknown
+  Rajavin Parvaiyile (Score: 0.0425) - Genres: unknown
+  Run Raja Run (Score: 0.0419) - Genres: action
+  Anbalippu (Score: 0.0418) - Genres: unknown
+  Dil Deke Dekho (Score: 0.0417) - Genres: romance musical
+  Ontari Poratam (Score: 0.0416) - Genres: unknown
+  Dostana (Score: 0.0416) - Genres: comedy
+  Vazhvey Maayam (Score: 0.0413) - Genres: unknown
+  Shakuntala (Score: 0.0403) - Genres: mythology
+  Bhale Pellam (Score: 0.0403) - Genres: unknown
+Concept 4:
+  Santrash (Score: 0.1093) - Genres: unknown
+  Rasta (Score: 0.0863) - Genres: unknown
+  Guru (2003 film) (Score: 0.0588) - Genres: unknown
+  Kaaval Nilayam (Score: 0.0519) - Genres: unknown
+  Unakkaga Naan (Score: 0.0504) - Genres: unknown
+  Bangali Babu (Score: 0.0497) - Genres: romance
+  Mr. Marumakan (മിസ്റ്റർ മരുമകൻ) (Score: 0.0467) - Genres: masala
+  Aflatoon (Score: 0.0428) - Genres: action
+  Vishaka Express (Score: 0.0424) - Genres: thriller
+  Nallavan (Score: 0.0423) - Genres: unknown
+  Unakkaga Mattum (Score: 0.0422) - Genres: unknown
+  Do Numbri (Score: 0.0420) - Genres: unknown
+  Devta (Score: 0.0420) - Genres: action
+  Rajadhi Raja (Score: 0.0418) - Genres: action
+  Jab Jab Phool Khile (Score: 0.0417) - Genres: musical
+  President Gari Pellam (Score: 0.0403) - Genres: unknown
+  Shakuntala (Score: 0.0400) - Genres: mythology
+  Amar Deep (Score: 0.0399) - Genres: romantic, drama
+  Billa No. 786 (Score: 0.0393) - Genres: action
+  Kondapalli Raja (Score: 0.0389) - Genres: unknown
+  Bahaar Aane Tak (Score: 0.0388) - Genres: family
+  Run Raja Run (Score: 0.0387) - Genres: action
+  Thaayin Madiyil (Score: 0.0386) - Genres: unknown
+  Dil Deke Dekho (Score: 0.0385) - Genres: romance musical
+  Kranti Kshetra (Score: 0.0377) - Genres: action
+Concept 5:
+  Dostana (Score: 0.0354) - Genres: comedy
+  Kasak (Score: 0.0341) - Genres: romance/drama
+  Priyamaanavale (Score: 0.0324) - Genres: unknown
+  Nanbargal (Score: 0.0312) - Genres: unknown
+  Naan Adimai Illai (Score: 0.0291) - Genres: unknown
+  Innisai Mazhai (Score: 0.0276) - Genres: unknown
+  Once More (Score: 0.0273) - Genres: unknown
+  Majaal (Score: 0.0272) - Genres: unknown
+  Kanteerava (Score: 0.0271) - Genres: action
+  Suyamariyadhai (Score: 0.0265) - Genres: unknown
+  Unnai Vaazhthi Paadugiren (Score: 0.0251) - Genres: unknown
+  Jurmana (Score: 0.0248) - Genres: action
+  Dhosth (Score: 0.0243) - Genres: unknown
+  Pusthakamlo Konni Pageelu Missing (Score: 0.0240) - Genres: black comedy
+  Dil Ki Baazi (Score: 0.0239) - Genres: unknown
+  Thangamana Thangachi (Score: 0.0236) - Genres: unknown
+  Idhaya Thamarai (Score: 0.0234) - Genres: unknown
+  Jeet (Score: 0.0232) - Genres: social
+  Veera Bahu (Score: 0.0231) - Genres: action
+  Endrendrum Kadhal (Score: 0.0230) - Genres: unknown
+  Pavitra Bandham (Score: 0.0229) - Genres: unknown
+  Sendhoorapandi (Score: 0.0229) - Genres: unknown
+  Vedham (Score: 0.0227) - Genres: unknown
+  Hum Aapke Dil Mein Rehte Hain (Score: 0.0226) - Genres: romantic drama
+  Santrash (Score: 0.0225) - Genres: unknown
+Concept 6:
+  Bright Lights (Score: 0.1535) - Genres: comedy
+  Diamond Horseshoe (Score: 0.0765) - Genres: musical
+  Triple Crossed (Score: 0.0717) - Genres: comedy
+  Raw Deal (Score: 0.0684) - Genres: unknown
+  Somewhere in Politics (Score: 0.0672) - Genres: comedy
+  Joe (Score: 0.0666) - Genres: drama
+  Flesh (Score: 0.0656) - Genres: comedy
+  You Said a Mouthful (Score: 0.0645) - Genres: comedy
+  My Name Is Joe (Score: 0.0616) - Genres: drama
+  Cabin in the Sky (Score: 0.0615) - Genres: musical comedy
+  If Lucy Fell (Score: 0.0614) - Genres: romantic comedy
+  A Prayer Before Dawn (Score: 0.0602) - Genres: unknown
+  Triple Threat (Score: 0.0595) - Genres: drama
+  Say It with Songs (Score: 0.0594) - Genres: musical
+  Flying Saucer Daffy (Score: 0.0582) - Genres: slapstick
+  The Crowd Roars (Score: 0.0582) - Genres: action
+  Off Track (Score: 0.0580) - Genres: drama
+  Trash (Score: 0.0573) - Genres: unknown
+  Full Throttle (Score: 0.0569) - Genres: drama
+  That's My Man (Score: 0.0566) - Genres: romantic comedy
+  Swing Your Lady (Score: 0.0561) - Genres: comedy
+  Joe Palooka in the Knockout (Score: 0.0560) - Genres: drama
+  Nepal Affair (Score: 0.0553) - Genres: unknown
+  Turn Back the Clock (Score: 0.0549) - Genres: drama
+  Midnight Cowboy (Score: 0.0548) - Genres: drama
+Concept 7:
+  Santrash (Score: 0.0413) - Genres: unknown
+  Rasta (Score: 0.0354) - Genres: unknown
+  Bangali Babu (Score: 0.0192) - Genres: romance
+  Kalankini Kankabati (Score: 0.0178) - Genres: unknown
+  Do Numbri (Score: 0.0165) - Genres: unknown
+  Devta (Score: 0.0165) - Genres: action
+  Patita (Score: 0.0159) - Genres: unknown
+  Glamour (Score: 0.0158) - Genres: drama
+  Mr. Marumakan (മിസ്റ്റർ മരുമകൻ) (Score: 0.0155) - Genres: masala
+  My Bill (Score: 0.0144) - Genres: drama
+  Unakkaga Mattum (Score: 0.0143) - Genres: unknown
+  Kranti Kshetra (Score: 0.0142) - Genres: action
+  Sameera (Score: 0.0140) - Genres: unknown
+  Vazhvey Maayam (Score: 0.0138) - Genres: unknown
+  President Gari Pellam (Score: 0.0136) - Genres: unknown
+  Thaayin Madiyil (Score: 0.0135) - Genres: unknown
+  Sanyasi Mera Naam (Score: 0.0135) - Genres: action
+  Jab Jab Phool Khile (Score: 0.0134) - Genres: musical
+  Billa No. 786 (Score: 0.0130) - Genres: action
+  Unakkaga Naan (Score: 0.0129) - Genres: unknown
+  Kismet (Score: 0.0128) - Genres: action, family, musical
+  Jenny Kissed Me (Score: 0.0128) - Genres: unknown
+  Compromising Daphne (Score: 0.0122) - Genres: comedy
+  Pyari Behna (Score: 0.0122) - Genres: action, comedy, drama
+  As the Earth Turns (Score: 0.0121) - Genres: drama
+Concept 8:
+  Yashoda Krishna (Score: 0.1765) - Genres: unknown
+  Yashoda Krishna (Score: 0.1765) - Genres: unknown
+  Yashoda Krishna (Score: 0.1765) - Genres: unknown
+  Mauali Krishna (Score: 0.1163) - Genres: drama
+  Radha Krishna (Score: 0.1125) - Genres: religious
+  Krishna Prema (Score: 0.1038) - Genres: devotional
+  Krishna Prema (Score: 0.1038) - Genres: devotional
+  Kalyanram Kathi (Score: 0.0871) - Genres: unknown
+  Baladur (Score: 0.0863) - Genres: drama
+  Dhag (Score: 0.0713) - Genres: drama
+  Majhdhaar (Score: 0.0705) - Genres: drama
+  Naa Ninna Bidalaare (Score: 0.0699) - Genres: unknown
+  Sri Krishna Rayabaram (Score: 0.0699) - Genres: mythology
+  Yateem (Score: 0.0647) - Genres: unknown
+  Hero (Score: 0.0621) - Genres: unknown
+  Main Krishna Hoon (Score: 0.0616) - Genres: animation/musical
+  Private Master (Score: 0.0612) - Genres: musical
+  Vallinam (Score: 0.0602) - Genres: sports drama
+  Amaradeepam (Score: 0.0598) - Genres: drama
+  Aastiparulu (Score: 0.0596) - Genres: drama
+  Gopal Krishna (Score: 0.0596) - Genres: religious
+  Krishna Vijayam (Score: 0.0590) - Genres: unknown
+  Sri Krishnarjuna Yuddham (Score: 0.0583) - Genres: mythology
+  Sri Krishna Satya (Score: 0.0583) - Genres: mythology
+  Neramu Siksha (Score: 0.0568) - Genres: unknown
+Concept 9:
+  Ketu Duplicatu (Score: 0.0633) - Genres: unknown
+  Dostana (Score: 0.0579) - Genres: comedy
+  Kasak (Score: 0.0552) - Genres: romance/drama
+  Priyamaanavale (Score: 0.0544) - Genres: unknown
+  Once More (Score: 0.0529) - Genres: unknown
+  Nanbargal (Score: 0.0492) - Genres: unknown
+  Jeet (Score: 0.0492) - Genres: social
+  Kaaval Nilayam (Score: 0.0476) - Genres: unknown
+  Suyamariyadhai (Score: 0.0476) - Genres: unknown
+  Kanteerava (Score: 0.0474) - Genres: action
+  Innisai Mazhai (Score: 0.0457) - Genres: unknown
+  Naan Adimai Illai (Score: 0.0440) - Genres: unknown
+  Majaal (Score: 0.0435) - Genres: unknown
+  Rasigan (Score: 0.0429) - Genres: unknown
+  Dhosth (Score: 0.0423) - Genres: unknown
+  Prema Tarangalu (Score: 0.0407) - Genres: unknown
+  Pusthakamlo Konni Pageelu Missing (Score: 0.0405) - Genres: black comedy
+  Who Goes Next? (Score: 0.0402) - Genres: war
+  The Hook (Score: 0.0401) - Genres: war
+  Vedha (Score: 0.0399) - Genres: romance
+  A Kiss for Cinderella (Score: 0.0399) - Genres: fantasy, romance
+  A Kiss for Cinderella (Score: 0.0399) - Genres: fantasy, romance
+  Neutral Port (Score: 0.0397) - Genres: war
+  Hum Aapke Dil Mein Rehte Hain (Score: 0.0397) - Genres: romantic drama
+  Idhaya Thamarai (Score: 0.0387) - Genres: unknown
+Concept 10:
+  Yashoda Krishna (Score: 0.1909) - Genres: unknown
+  Yashoda Krishna (Score: 0.1909) - Genres: unknown
+  Yashoda Krishna (Score: 0.1909) - Genres: unknown
+  Radha Krishna (Score: 0.1148) - Genres: religious
+  Mauali Krishna (Score: 0.1119) - Genres: drama
+  Walk Like a Dragon (Score: 0.1003) - Genres: drama
+  Krishna Prema (Score: 0.0996) - Genres: devotional
+  Krishna Prema (Score: 0.0996) - Genres: devotional
+  Kalyanram Kathi (Score: 0.0845) - Genres: unknown
+  Baladur (Score: 0.0812) - Genres: drama
+  Bejawada (Score: 0.0769) - Genres: action
+  Naa Ninna Bidalaare (Score: 0.0732) - Genres: unknown
+  Dhag (Score: 0.0708) - Genres: drama
+  Vallinam (Score: 0.0686) - Genres: sports drama
+  Krishna Babu (Score: 0.0661) - Genres: unknown
+  Majhdhaar (Score: 0.0645) - Genres: drama
+  Sri Krishna Rayabaram (Score: 0.0628) - Genres: mythology
+  Yateem (Score: 0.0611) - Genres: unknown
+  Aa Okkadu (Score: 0.0592) - Genres: thriller
+  R. Prakash (Score: 0.0589) - Genres: unknown
+  Main Krishna Hoon (Score: 0.0586) - Genres: animation/musical
+  Thillalangadi (Score: 0.0572) - Genres: unknown
+  Sri Krishna Satya (Score: 0.0569) - Genres: mythology
+  Guru En Aalu (Score: 0.0560) - Genres: romantic comedy
+  Qahar (Score: 0.0549) - Genres: action
+Concept 11:
+  Jack and the Beanstalk (Score: 0.0684) - Genres: comedy
+  Blackjack (Score: 0.0605) - Genres: unknown
+  Ordeal by Innocence (Score: 0.0587) - Genres: mystery
+  Jack's the Boy (Score: 0.0566) - Genres: comedy
+  Jack of All Trades (Score: 0.0554) - Genres: comedy
+  The Bag Man (Score: 0.0551) - Genres: action
+  Vacation in Reno (Score: 0.0548) - Genres: comedy
+  Trail of Robin Hood (Score: 0.0536) - Genres: western
+  Traces of Red (Score: 0.0536) - Genres: crime drama
+  Falling for You (Score: 0.0535) - Genres: comedy
+  Heart Beat (Score: 0.0512) - Genres: romance
+  Where the West Begins (Score: 0.0510) - Genres: western
+  The Ruling Class (Score: 0.0508) - Genres: black comedy
+  Brokeback Mountain (Score: 0.0481) - Genres: western, romantic drama
+  Road Games (Score: 0.0480) - Genres: drama
+  A Thousand Words (Score: 0.0466) - Genres: comedy-drama
+  Jack and the Beanstalk (Score: 0.0463) - Genres: comedy
+  A Stone's Throw (Score: 0.0458) - Genres: drama
+  After the Ball (Score: 0.0456) - Genres: comedy
+  Bwana Devil (Score: 0.0456) - Genres: drama
+  Another 48 Hrs. (Score: 0.0453) - Genres: action
+  Kiss of Fire (Score: 0.0450) - Genres: adventure
+  The Flame Within (Score: 0.0450) - Genres: drama
+  The Nature of the Beast (Score: 0.0446) - Genres: horror
+  Firewall (Score: 0.0440) - Genres: thriller
+Concept 12:
+  Yashoda Krishna (Score: 0.0543) - Genres: unknown
+  Yashoda Krishna (Score: 0.0543) - Genres: unknown
+  Yashoda Krishna (Score: 0.0543) - Genres: unknown
+  Mauali Krishna (Score: 0.0289) - Genres: drama
+  Krishna Prema (Score: 0.0249) - Genres: devotional
+  Krishna Prema (Score: 0.0249) - Genres: devotional
+  Kalyanram Kathi (Score: 0.0239) - Genres: unknown
+   R.S.V.P. (Score: 0.0236) - Genres: comedy
+  Bloodmoon (Score: 0.0232) - Genres: horror
+  Vallinam (Score: 0.0232) - Genres: sports drama
+  Because They're Young (Score: 0.0227) - Genres: unknown
+  Bejawada (Score: 0.0225) - Genres: action
+  Dhag (Score: 0.0210) - Genres: drama
+  Naa Ninna Bidalaare (Score: 0.0209) - Genres: unknown
+  Ketu Duplicatu (Score: 0.0201) - Genres: unknown
+  Clockwork Mice (Score: 0.0198) - Genres: drama
+  Kaaval Nilayam (Score: 0.0190) - Genres: unknown
+  Sivi (Score: 0.0190) - Genres: horror
+  Qahar (Score: 0.0185) - Genres: action
+  Krishna Babu (Score: 0.0184) - Genres: unknown
+  Seven Footprints to Satan (Score: 0.0184) - Genres: horror
+  Baladur (Score: 0.0182) - Genres: drama
+  The Case of Gabriel Perry (Score: 0.0181) - Genres: crime
+  Baker Country U.S.A. (Score: 0.0180) - Genres: drama
+  Jealousy (Score: 0.0178) - Genres: suspense
+Concept 13:
+  Walk Like a Dragon (Score: 0.1351) - Genres: drama
+  Nishaan (Score: 0.0694) - Genres: action, drama, family, musical, romance
+  Unnai Vaazhthi Paadugiren (Score: 0.0653) - Genres: unknown
+  Jwala Daku (Score: 0.0625) - Genres: drama
+  Palkon Ki Chhaon Mein (Score: 0.0595) - Genres: unknown
+  Kasturi Nivasa (color version)  (Score: 0.0539) - Genres: drama
+  Kasturi Nivasa (Score: 0.0539) - Genres: unknown
+  Galaxy Turnpike (Score: 0.0538) - Genres: science fiction, comedy
+  Kadhalithal Podhuma (Score: 0.0528) - Genres: unknown
+  Flower and Snake: Zero (Score: 0.0525) - Genres: erotic drama
+  Dil Tera Deewana (Score: 0.0513) - Genres: romance, thriller
+  C.I.D. (Score: 0.0495) - Genres: drama
+  Himmatwala (Score: 0.0495) - Genres: action/comedy
+  Chintakayala Ravi (Score: 0.0490) - Genres: comedy
+  Nakhuda (Score: 0.0489) - Genres: unknown
+  Oru Oodhappu Kan Simittugiradhu (Score: 0.0470) - Genres: unknown
+  Ayalum Njanum Thammil (അയാളും ഞാനും തമ്മിൽ) (Score: 0.0453) - Genres: romantic thriller
+  Laparwah (Score: 0.0451) - Genres: unknown
+  Chinna Chinna Kannile (Score: 0.0439) - Genres: unknown
+  Love Channel (Score: 0.0432) - Genres: unknown
+  Pandianadu (Score: 0.0430) - Genres: action drama
+  Nee Kosam (Score: 0.0425) - Genres: unknown
+  Pyar Ki Kahani (Score: 0.0421) - Genres: drama
+  Kai Koduttha Dheivam (Score: 0.0419) - Genres: unknown
+  Shola Aur Shabnam (Score: 0.0418) - Genres: comedy/action
+Concept 14:
+  Walk Like a Dragon (Score: 0.1684) - Genres: drama
+  Galaxy Turnpike (Score: 0.0741) - Genres: science fiction, comedy
+  Flower and Snake: Zero (Score: 0.0713) - Genres: erotic drama
+  Doctor Bari (Score: 0.0600) - Genres: romance
+  Laparwah (Score: 0.0523) - Genres: unknown
+  Blind Massage (Score: 0.0494) - Genres: drama
+  Achchani (Score: 0.0442) - Genres: unknown
+  Apaaratha (Score: 0.0442) - Genres: unknown
+  Tokyo Family (Score: 0.0428) - Genres: drama
+  For Love or Money (Score: 0.0426) - Genres: documentary
+  Palkon Ki Chhaon Mein (Score: 0.0408) - Genres: unknown
+  Night Peacock (Score: 0.0406) - Genres: drama / romance
+  Youth's Endearing Charm (Score: 0.0397) - Genres: drama
+  Nishaan (Score: 0.0395) - Genres: action, drama, family, musical, romance
+  101 Weddings (Score: 0.0394) - Genres: romantic comedy, drama
+  Param Dharam (Score: 0.0392) - Genres: action, crime, drama
+  Ghamandee (Score: 0.0386) - Genres: action
+  My First Wife (Score: 0.0379) - Genres: drama
+  The Case of Gabriel Perry (Score: 0.0377) - Genres: crime
+  Chorabali (Score: 0.0376) - Genres: thriller
+  Oru Oodhappu Kan Simittugiradhu (Score: 0.0370) - Genres: unknown
+  Deadlock (Score: 0.0368) - Genres: thriller
+  Kasturi Nivasa (color version)  (Score: 0.0351) - Genres: drama
+  Kasturi Nivasa (Score: 0.0351) - Genres: unknown
+  Unnai Vaazhthi Paadugiren (Score: 0.0350) - Genres: unknown
+Concept 15:
+  The Return of Charlie Chan (Score: 0.0975) - Genres: mystery
+  Natturajavu (Score: 0.0964) - Genres: unknown
+  Gentlemen of Nerve (Score: 0.0850) - Genres: comedy
+  Charlie St. Cloud (Score: 0.0836) - Genres: romantic fantasy
+  Uncle Bun (Score: 0.0782) - Genres: unknown
+   The Ice Harvest (Score: 0.0769) - Genres: drama
+  Charlie Chaplin (Score: 0.0769) - Genres: unknown
+  Mean Streets (Score: 0.0691) - Genres: drama
+  The Masquerader (Score: 0.0687) - Genres: comedy
+  Shadow of a Doubt (Score: 0.0665) - Genres: film noir
+  Charlie Chan's Chance (Score: 0.0656) - Genres: drama, mystery
+  Till There Was You (Score: 0.0654) - Genres: drama
+  Till There Was You (Score: 0.0654) - Genres: drama
+  Trial and Error (Score: 0.0639) - Genres: comedy
+  Wolf Lake (Score: 0.0615) - Genres: thriller
+  Sylvester (Score: 0.0615) - Genres: drama
+  Suicide Kings (Score: 0.0609) - Genres: crime
+  Suicide Kings (Score: 0.0609) - Genres: crime
+  The Champion (Score: 0.0603) - Genres: comedy short
+  The Truth About Charlie (Score: 0.0594) - Genres: thriller
+  Adaptation. (Score: 0.0584) - Genres: comedy, drama
+  Monster-in-Law (Score: 0.0576) - Genres: comedy
+  Run (Score: 0.0568) - Genres: thriller
+  Station West (Score: 0.0554) - Genres: western
+  Kill Me Three Times (Score: 0.0554) - Genres: action thriller
+Concept 16:
+  Natturajavu (Score: 0.1104) - Genres: unknown
+  Gentlemen of Nerve (Score: 0.0975) - Genres: comedy
+  I Love You Too (Score: 0.0914) - Genres: romantic comedy
+  Uncle Bun (Score: 0.0889) - Genres: unknown
+   The Ice Harvest (Score: 0.0887) - Genres: drama
+  The Return of Charlie Chan (Score: 0.0875) - Genres: mystery
+  Charlie St. Cloud (Score: 0.0838) - Genres: romantic fantasy
+  Charlie Chaplin (Score: 0.0828) - Genres: unknown
+  Till There Was You (Score: 0.0773) - Genres: drama
+  Till There Was You (Score: 0.0773) - Genres: drama
+  Sylvester (Score: 0.0772) - Genres: drama
+  The Masquerader (Score: 0.0770) - Genres: comedy
+  Border Law (Score: 0.0752) - Genres: western
+  Shadow of a Doubt (Score: 0.0729) - Genres: film noir
+  The Desert Trail (Score: 0.0708) - Genres: western
+  Seven Footprints to Satan (Score: 0.0706) - Genres: horror
+  Trial and Error (Score: 0.0696) - Genres: comedy
+  Station West (Score: 0.0691) - Genres: western
+  The Champion (Score: 0.0676) - Genres: comedy short
+  Charlie Chan's Chance (Score: 0.0667) - Genres: drama, mystery
+  Suicide Kings (Score: 0.0657) - Genres: crime
+  Suicide Kings (Score: 0.0657) - Genres: crime
+  Charlie Chan's Murder Cruise (Score: 0.0649) - Genres: mystery
+  Adaptation. (Score: 0.0648) - Genres: comedy, drama
+  Kill Me Three Times (Score: 0.0639) - Genres: action thriller
+Concept 17:
+  Walk Like a Dragon (Score: 0.1317) - Genres: drama
+  Galaxy Turnpike (Score: 0.0525) - Genres: science fiction, comedy
+  Flower and Snake: Zero (Score: 0.0510) - Genres: erotic drama
+  Amma (Score: 0.0499) - Genres: unknown
+  Bangaarada Hoovu (Score: 0.0494) - Genres: unknown
+  Pagadai Panirendu (Score: 0.0476) - Genres: unknown
+  Avathara Purushan (Score: 0.0418) - Genres: unknown
+  Deedar (Score: 0.0409) - Genres: romance/drama
+  Achchani (Score: 0.0400) - Genres: unknown
+  Apaaratha (Score: 0.0400) - Genres: unknown
+  Allare Allari (Score: 0.0396) - Genres: comedy
+  House No. 44 (Score: 0.0395) - Genres: thriller romance
+  Dharti Mata (Score: 0.0393) - Genres: social
+  13 (Score: 0.0393) - Genres: jr. ntr, sameera reddy, sonu sood
+  Hare Rama Hare Krishna (Score: 0.0383) - Genres: drama
+  Laparwah (Score: 0.0379) - Genres: unknown
+  Alexander (Score: 0.0374) - Genres: historical, action
+  Mr. Bechara (Score: 0.0372) - Genres: comedy, drama
+  Aap Ke Saath (Score: 0.0367) - Genres: drama, family
+  Dil-E-Nadaan (Score: 0.0353) - Genres: drama, romance
+  Blind Massage (Score: 0.0350) - Genres: drama
+  Gandhada Gudi (Score: 0.0343) - Genres: unknown
+  Kanave Kalaiyadhe (Score: 0.0341) - Genres: unknown
+  Puthukavithai (Score: 0.0336) - Genres: unknown
+  Nila Penne (Score: 0.0336) - Genres: unknown
+Concept 18:
+  What Happened to Harkness? (Score: 0.0651) - Genres: comedy
+  Girl Rush (Score: 0.0493) - Genres: comedy western
+  Windom's Way (Score: 0.0468) - Genres: drama
+  Dhanyam (ധന്യം) (Score: 0.0446) - Genres: romance
+  The Large Rope (Score: 0.0437) - Genres: crime
+  Yuddha Bhoomi (Score: 0.0421) - Genres: unknown
+  Escape to Danger (Score: 0.0408) - Genres: thriller
+  Cheolindo (Score: 0.0406) - Genres: drama, action
+  Thokar (Score: 0.0397) - Genres: social
+  Thokar (Score: 0.0397) - Genres: social
+  Friends and Neighbours (Score: 0.0395) - Genres: comedy
+  Who Goes Next? (Score: 0.0392) - Genres: war
+  Afsar (Score: 0.0370) - Genres: romantic comedy
+  Neutral Port (Score: 0.0348) - Genres: war
+  Deool (Score: 0.0345) - Genres: drama
+  Pattina Pravesam (Score: 0.0335) - Genres: unknown
+  Ezhai Uzhavan (Score: 0.0333) - Genres: unknown
+  Rasika (Score: 0.0332) - Genres: unknown
+  Four Feathers (Score: 0.0328) - Genres: drama
+  Nayaki (Score: 0.0327) - Genres: horror
+  Nayagi (Score: 0.0327) - Genres: horror
+  Palaver (Score: 0.0320) - Genres: adventure
+  Mann Vasanai (Score: 0.0318) - Genres: unknown
+  I Am Not a Witch (Score: 0.0315) - Genres: unknown
+  Battles of Chief Pontiac (Score: 0.0309) - Genres: western
+Concept 19:
+  Mutiny on the Bunny (Score: 0.1024) - Genres: animation
+  Big House Bunny (Score: 0.1018) - Genres: animation
+  Bugs Bunny Rides Again (Score: 0.0896) - Genres: animated short
+  Bunker Hill Bunny (Score: 0.0895) - Genres: animated
+  Hare Lift (Score: 0.0869) - Genres: animated short
+  Rabbitson Crusoe (Score: 0.0863) - Genres: animation
+  Sahara Hare (Score: 0.0861) - Genres: animated short
+  All This and Rabbit Stew (Score: 0.0849) - Genres: animation
+  Elmer's Pet Rabbit (Score: 0.0848) - Genres: cartoon
+  Buccaneer Bunny (Score: 0.0847) - Genres: animated short
+  Bushy Hare (Score: 0.0820) - Genres: animation
+  Knighty Knight Bugs (Score: 0.0809) - Genres: animated
+  Southern Fried Rabbit (Score: 0.0787) - Genres: animation
+  Ballot Box Bunny (Score: 0.0785) - Genres: animation
+  Dumb Patrol (Score: 0.0760) - Genres: animated
+  Rabbit Rampage (Score: 0.0714) - Genres: animation
+  Wideo Wabbit (Score: 0.0690) - Genres: animation
+  Firstborn (Score: 0.0670) - Genres: drama
+  Devil May Hare (Score: 0.0665) - Genres: animated
+  Bugs Bunny's 3rd Movie: 1001 Rabbit Tales (Score: 0.0662) - Genres: animation
+  Born to Gamble (Score: 0.0651) - Genres: unknown
+  Born to Gamble (Score: 0.0651) - Genres: unknown
+  Hare Brush (Score: 0.0644) - Genres: animation
+  Bugs Bunny Gets the Boid (Score: 0.0637) - Genres: animated short
+  Hyde and Hare (Score: 0.0632) - Genres: animation
+Concept 20:
+  Walk Like a Dragon (Score: 0.0981) - Genres: drama
+  Girl Rush (Score: 0.0554) - Genres: comedy western
+  Suraj (Score: 0.0501) - Genres: action
+  What Happened to Harkness? (Score: 0.0488) - Genres: comedy
+  School Master (Score: 0.0472) - Genres: unknown
+  Cheolindo (Score: 0.0469) - Genres: drama, action
+  Dhanyam (ധന്യം) (Score: 0.0460) - Genres: romance
+  School Master (Score: 0.0425) - Genres: unknown
+  Yuddha Bhoomi (Score: 0.0418) - Genres: unknown
+  Flower and Snake: Zero (Score: 0.0416) - Genres: erotic drama
+  Ezhai Uzhavan (Score: 0.0406) - Genres: unknown
+  The Large Rope (Score: 0.0401) - Genres: crime
+  Huchudugaru  (Score: 0.0393) - Genres: comedy, drama
+  Rasika (Score: 0.0388) - Genres: unknown
+  Deool (Score: 0.0388) - Genres: drama
+  Pattina Pravesam (Score: 0.0386) - Genres: unknown
+  Galaxy Turnpike (Score: 0.0385) - Genres: science fiction, comedy
+  I Am Not a Witch (Score: 0.0381) - Genres: unknown
+  Afsar (Score: 0.0361) - Genres: romantic comedy
+  Utsava Melam (Score: 0.0346) - Genres: unknown
+  Hell's Crossroads (Score: 0.0324) - Genres: western
+  Onek Sadher Moyna (Score: 0.0320) - Genres: romance, drama
+  A Medal for Benny (Score: 0.0318) - Genres: drama
+  Mann Vasanai (Score: 0.0313) - Genres: unknown
+  Amanaat (Score: 0.0311) - Genres: action, adventure
+Concept 21:
+  Walk Like a Dragon (Score: 0.1068) - Genres: drama
+  Bloodmoon (Score: 0.0736) - Genres: horror
+  Because They're Young (Score: 0.0661) - Genres: unknown
+   R.S.V.P. (Score: 0.0640) - Genres: comedy
+  Clockwork Mice (Score: 0.0594) - Genres: drama
+  Seven Footprints to Satan (Score: 0.0568) - Genres: horror
+  The Hitcher (Score: 0.0547) - Genres: horror
+  Three Hours to Kill (Score: 0.0544) - Genres: western
+  I'll Give My Life (Score: 0.0521) - Genres: drama
+  Seoul Evita (Score: 0.0504) - Genres: unknown
+  Mother (Score: 0.0477) - Genres: unknown
+  Baker Country U.S.A. (Score: 0.0463) - Genres: drama
+  Wiretapper (Score: 0.0462) - Genres: western
+  Saturday's Millions (Score: 0.0458) - Genres: drama
+  Alias a Gentleman (Score: 0.0457) - Genres: comedy
+  The Adventures of Huckleberry Finn (Score: 0.0453) - Genres: unknown
+  The Rookie (Score: 0.0452) - Genres: biography
+  Border Law (Score: 0.0442) - Genres: western
+  This Man Is Mine (Score: 0.0439) - Genres: drama, romance
+  Youth on Parade (Score: 0.0435) - Genres: musical comedy
+  Wine, Women and Horses (Score: 0.0434) - Genres: drama
+  Haunted Harbor (Score: 0.0427) - Genres: serial
+  The Basketball Diaries (Score: 0.0423) - Genres: biography
+  My Friend the King (Score: 0.0417) - Genres: comedy
+  College Hero (Score: 0.0413) - Genres: unknown
+Concept 22:
+  Angel Baby (Score: 0.1057) - Genres: unknown
+  Something Money Can't Buy (Score: 0.1004) - Genres: comedy/drama
+  How to Save a Marriage and Ruin Your Life (Score: 0.0980) - Genres: comedy
+  Hello-Goodbye (Score: 0.0952) - Genres: comedy
+  Me and the Kid (Score: 0.0905) - Genres: comedy
+  His First Flame (Score: 0.0904) - Genres: comedy
+  Long Pants (Score: 0.0895) - Genres: comedy
+  Tramp, Tramp, Tramp (Score: 0.0891) - Genres: comedy
+  Harry's War (Score: 0.0884) - Genres: comedy
+  Deconstructing Harry (Score: 0.0883) - Genres: comedy
+  The Breaking Point (Score: 0.0878) - Genres: film noir
+  Fantasm Comes Again (Score: 0.0873) - Genres: unknown
+  Creator (Score: 0.0848) - Genres: sci-fi, comedy
+  Parting Shots (Score: 0.0836) - Genres: crime comedy
+  When Harry Met Sally... (Score: 0.0834) - Genres: romantic comedy
+  The Cowboy Quarterback (Score: 0.0829) - Genres: comedy
+  Cheyenne's Pal (Score: 0.0825) - Genres: western
+  Six Ways to Sunday (Score: 0.0820) - Genres: drama
+  Harry Potter and the Philosopher's Stone (Score: 0.0801) - Genres: fantasy
+  Harry Potter and the Sorcerer's Stone (Score: 0.0801) - Genres: fantasy
+  Houdini (Score: 0.0797) - Genres: biographical
+  The Bigamist (Score: 0.0795) - Genres: romance
+  Twilight (Score: 0.0781) - Genres: fantasy, romance
+  Night and the City (Score: 0.0766) - Genres: drama
+  Harry Potter and the Order of the Phoenix (Score: 0.0761) - Genres: family, fantasy
+Concept 23:
+  Lal Dupatta Malmal Ka (Score: 0.0718) - Genres: unknown
+  Dharma Patni (Score: 0.0672) - Genres: unknown
+  Thokar (Score: 0.0622) - Genres: social
+  Thokar (Score: 0.0622) - Genres: social
+  Because They're Young (Score: 0.0559) - Genres: unknown
+  Suryagandhi (Score: 0.0541) - Genres: unknown
+  Veera Bahu (Score: 0.0524) - Genres: action
+  Idhaya Malar (Score: 0.0511) - Genres: unknown
+  Clockwork Mice (Score: 0.0478) - Genres: drama
+  Chalisuva Modagalu (Score: 0.0457) - Genres: unknown
+  Rakta Sambandham (Score: 0.0450) - Genres: drama
+  Manchi Manushulu (Score: 0.0438) - Genres: unknown
+  Detective Narada (Score: 0.0432) - Genres: unknown
+  Pasamalar (Score: 0.0409) - Genres: unknown
+  Jalachhayam (ജലച്ചായം) (Score: 0.0402) - Genres: experimental film, art film
+  As You Like It (Score: 0.0402) - Genres: comedy-drama
+  Hamari Betiyan (Score: 0.0397) - Genres: social
+  Bloodmoon (Score: 0.0394) - Genres: horror
+  Aduthathu Albert (Score: 0.0389) - Genres: unknown
+  Vishwamohini (Score: 0.0388) - Genres: unknown
+  Seoul Evita (Score: 0.0385) - Genres: unknown
+  Nee Illadhe (Score: 0.0383) - Genres: romance
+  Radha Kalyanam (Score: 0.0378) - Genres: unknown
+  Gopinath (Score: 0.0376) - Genres: romantic drama triangle
+  Hide-Out (Score: 0.0376) - Genres: comedy, drama
+Concept 24:
+  Boss of Bullion City (Score: 0.0431) - Genres: western
+  Hell's Crossroads (Score: 0.0386) - Genres: western
+  Dakota Lil (Score: 0.0379) - Genres: western
+  Let 'Em Have It (Score: 0.0373) - Genres: crime
+  Yashoda Krishna (Score: 0.0330) - Genres: unknown
+  Yashoda Krishna (Score: 0.0330) - Genres: unknown
+  Yashoda Krishna (Score: 0.0330) - Genres: unknown
+  My Bill (Score: 0.0309) - Genres: drama
+  Oklahoma Cyclone (Score: 0.0306) - Genres: western
+  Unnai Vaazhthi Paadugiren (Score: 0.0303) - Genres: unknown
+  The Man They Couldn't Arrest (Score: 0.0299) - Genres: drama
+  Vaalee (Score: 0.0297) - Genres: unknown
+  Vaali (Score: 0.0284) - Genres: unknown
+  Jesse James' Women (Score: 0.0280) - Genres: western
+  Kalahasti Mahatyam (Score: 0.0279) - Genres: mythology
+  Roudram (Score: 0.0270) - Genres: action
+  Rowthiram (Score: 0.0270) - Genres: action
+  Mon Bole Priya Priya (Score: 0.0264) - Genres: romance
+  Oliver Twist (Score: 0.0255) - Genres: literary drama
+  Just William's Luck (Score: 0.0246) - Genres: comedy
+  Khoon Pasina (Score: 0.0235) - Genres: unknown
+  Muqaddar (Score: 0.0228) - Genres: unknown
+  Sonna Puriyathu (Score: 0.0226) - Genres: comedy
+  Sivasakthi Dubbed from Kannada[1] (Score: 0.0225) - Genres: unknown
+  The Michigan Kid (Score: 0.0224) - Genres: western
 
-1. DATA SUMMARY:
-----------------
-- Total records processed: 1169099
-- Training period: 1949-2023 (1136215 records)
-- Validation year: 2024 (25208 records)
-- Test year: 2025 (7676 records)
+===== Query: love romance =====
+Title: Lal Dupatta Malmal Ka (Score: 0.1949 , Genre: unknown)
+Title: Kalgejje (Score: 0.1224 , Genre: drama)
+Title: Kote (Score: 0.1218 , Genre: action)
+Title: Oyee (Score: 0.1218 , Genre: romantic comedy)
+Title: Abhimanyu (Score: 0.1127 , Genre: unknown)
+Title: Min & Max (Score: 0.1064 , Genre: comedy / romance)
+Title: Murali Meets Meera (Score: 0.1060 , Genre: romance)
+Title: Manasina Maathu (Score: 0.1058 , Genre: romance)
+Title: A Saloon Wet with Beautiful Women (Score: 0.1041 , Genre: pink)
+Title: Sweety Nanna Jodi (Score: 0.1022 , Genre: romance)
 
-2. MODEL PERFORMANCE:
---------------------
-Linear Regression:
-- Validation RMSE (2024): 6.725581015653362
-- Test RMSE (2025): 6.63030736850551
-- Training time: 3.80 seconds
+===== Query: war battle =====
+Title: Who Goes Next? (Score: 0.3201 , Genre: war)
+Title: Escape to Danger (Score: 0.2998 , Genre: thriller)
+Title: Neutral Port (Score: 0.2651 , Genre: war)
+Title: Friends and Neighbours (Score: 0.2631 , Genre: comedy)
+Title: The Hook (Score: 0.2610 , Genre: war)
+Title: Four Feathers (Score: 0.2539 , Genre: drama)
+Title: Permission to Kill (Score: 0.2526 , Genre: thriller)
+Title: General Post (Score: 0.2404 , Genre: drama)
+Title: Kiss Me Sergeant (Score: 0.2358 , Genre: comedy)
+Title: Palaver (Score: 0.2338 , Genre: adventure)
 
-Random Forest:
-- Validation RMSE (2024): 2.7608975405216385
-- Test RMSE (2025): 2.735520108777691
-- Training time: 3.89 seconds
+===== Query: comedy funny =====
+Title: Lal Dupatta Malmal Ka (Score: 0.3841 , Genre: unknown)
+Title: Oyee (Score: 0.2247 , Genre: romantic comedy)
+Title: Kote (Score: 0.2192 , Genre: action)
+Title: C.I.D. 909 (Score: 0.1700 , Genre: unknown)
+Title: Manasina Maathu (Score: 0.1643 , Genre: romance)
+Title: Pangali (Score: 0.1624 , Genre: unknown)
+Title: Deadly (Score: 0.1540 , Genre: crime)
+Title: Murali Meets Meera (Score: 0.1529 , Genre: romance)
+Title: Min & Max (Score: 0.1522 , Genre: comedy / romance)
+Title: Suryakaanti (Score: 0.1477 , Genre: romance)
 
-3. PERFORMANCE COMPARISON:
--------------------------
-Random Forest was slower to train
-but achieved better accuracy
+===== Query: murder mystery =====
+Title: What Happened to Harkness? (Score: 0.5317 , Genre: comedy)
+Title: The Case of Gabriel Perry (Score: 0.5006 , Genre: crime)
+Title: Jealousy (Score: 0.4893 , Genre: suspense)
+Title: The Loudwater Mystery (Score: 0.4853 , Genre: crime)
+Title: Bluebeard (Score: 0.4281 , Genre: unknown)
+Title: Accused (Score: 0.4252 , Genre: drama)
+Title:  R.S.V.P. (Score: 0.4181 , Genre: comedy)
+Title: Cassandra (Score: 0.4177 , Genre: unknown)
+Title: Killing 'em Softly (Score: 0.4161 , Genre: drama)
+Title: The Glass Cage (Score: 0.4150 , Genre: mystery)
 
-4. FEATURE ANALYSIS:
--------------------
+===== Query: space alien =====
+Title: The Hook (Score: 0.0983 , Genre: war)
+Title: Who Goes Next? (Score: 0.0874 , Genre: war)
+Title: The Space Children (Score: 0.0839 , Genre: sci-fi)
+Title: An Inaccurate Memoir (Score: 0.0832 , Genre: drama / action / war)
+Title: All This and Rabbit Stew (Score: 0.0800 , Genre: animation)
+Title: Neutral Port (Score: 0.0779 , Genre: war)
+Title: Mutiny on the Bunny (Score: 0.0776 , Genre: animation)
+Title: School Master (Score: 0.0763 , Genre: unknown)
+Title: Clockwork Mice (Score: 0.0747 , Genre: drama)
+Title: Hold Back the Night (Score: 0.0742 , Genre: war drama)
 
-Feature Importances (Random Forest):
-  - dew_point       0.6047
-  - month           0.2693
-  - ceiling_height  0.0566
-  - visibility      0.0337
-  - hour            0.0274
-  - wind_direction  0.0056
-  - year            0.0012
-  - wind_speed      0.0008
-  - day             0.0006
-  - elevation       0.0001
-  - latitude        0.0000
-  - longitude       0.0000
+===== Query: family drama =====
+Title: Santrash (Score: 0.5702 , Genre: unknown)
+Title: Rasta (Score: 0.4386 , Genre: unknown)
+Title: Bangali Babu (Score: 0.4123 , Genre: romance)
+Title: Lal Dupatta Malmal Ka (Score: 0.4036 , Genre: unknown)
+Title: Jagir (Score: 0.3916 , Genre: action, crime, drama)
+Title: Do Numbri (Score: 0.3903 , Genre: unknown)
+Title: Devta (Score: 0.3903 , Genre: action)
+Title: Suraj (Score: 0.3848 , Genre: action)
+Title: Guru (2003 film) (Score: 0.3268 , Genre: unknown)
+Title: Guneghar (Score: 0.3179 , Genre: unknown)
 
-Temperature Correlations:
-  - ceiling_height  0.2332
-  - month           0.1772
-  - dew_point       0.1241
-  - hour            0.1098
-  - year            0.1016
-  - elevation       -0.0834
-  - visibility      0.0814
-  - wind_direction  0.0486
-  - latitude        0.0302
-  - longitude       -0.0129
-  - day             0.0119
-  - wind_speed      -0.0033
+===== Query: horror scary =====
+Title: Walk Like a Dragon (Score: 0.0168 , Genre: drama)
+Title: School Master (Score: 0.0139 , Genre: unknown)
+Title: School Master (Score: 0.0134 , Genre: unknown)
+Title: Huchudugaru  (Score: 0.0126 , Genre: comedy, drama)
+Title: Flower and Snake: Zero (Score: 0.0109 , Genre: erotic drama)
+Title: What Happened to Harkness? (Score: 0.0109 , Genre: comedy)
+Title: Galaxy Turnpike (Score: 0.0104 , Genre: science fiction, comedy)
+Title: Girl Rush (Score: 0.0101 , Genre: comedy western)
+Title: Yuddha Bhoomi (Score: 0.0099 , Genre: unknown)
+Title: Suraj (Score: 0.0095 , Genre: action)
 
-Strongest Correlation: ceiling_height (0.23317322861487194)
+===== Query: adventure journey =====
+Title: Walk Like a Dragon (Score: 0.1407 , Genre: drama)
+Title: Abhimanyu (Score: 0.1390 , Genre: unknown)
+Title: Galaxy Turnpike (Score: 0.1167 , Genre: science fiction, comedy)
+Title: Flower and Snake: Zero (Score: 0.1028 , Genre: erotic drama)
+Title: The Magician (Score: 0.0964 , Genre: unknown)
+Title: Mangamma Sabatham (Score: 0.0938 , Genre: unknown)
+Title: Madanakamarajan (Score: 0.0914 , Genre: unknown)
+Title: Raja Bakthi (Score: 0.0837 , Genre: unknown)
+Title: Murali Meets Meera (Score: 0.0827 , Genre: romance)
+Title: Karma (Score: 0.0822 , Genre: action, drama)
 
-5. OBSERVATIONS:
----------------
-The Random Forest model outperformed Linear Regression
+===== Query: robot future =====
+Title: Who Goes Next? (Score: 0.0387 , Genre: war)
+Title: The Hook (Score: 0.0384 , Genre: war)
+Title: Neutral Port (Score: 0.0333 , Genre: war)
+Title: To End All Wars (Score: 0.0323 , Genre: war)
+Title: The Space Children (Score: 0.0318 , Genre: sci-fi)
+Title: Escape to Danger (Score: 0.0315 , Genre: thriller)
+Title: General Post (Score: 0.0312 , Genre: drama)
+Title: An Inaccurate Memoir (Score: 0.0305 , Genre: drama / action / war)
+Title: Rengō Kantai Shirei Chōkan: Yamamoto Isoroku (Score: 0.0296 , Genre: war drama)
+Title: Steel Rain (Score: 0.0268 , Genre: unknown)
 
-Key Findings:
-1. The most predictive feature was dew_point
-2. Temperature shows strongest correlation with ceiling_height
-3. Model performance difference: 3.894787259727819 RMSE
-
-6. SAMPLE PREDICTIONS:
----------------------
-First 10 test predictions (Linear Regression):
-----------------------------------------------
-1/1/2025 0:00 | Actual: -0.9°C | Predicted: 9.8°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: 6.0°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: 9.8°C
-1/1/2025 1:00 | Actual: -0.5°C | Predicted: 9.9°C
-1/1/2025 1:00 | Actual: -1.0°C | Predicted: 9.8°C
-1/1/2025 1:00 | Actual: 0.0°C | Predicted: 9.9°C
-1/1/2025 2:00 | Actual: -0.5°C | Predicted: 10.0°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 9.9°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 6.2°C
-1/1/2025 3:00 | Actual: -0.4°C | Predicted: 10.1°C
-
-
-First 10 test predictions (Random Forest):
-1/1/2025 0:00 | Actual: -0.9°C | Predicted: -0.2°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: -0.3°C
-1/1/2025 0:00 | Actual: -1.0°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: -0.5°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: -1.0°C | Predicted: -0.2°C
-1/1/2025 1:00 | Actual: 0.0°C | Predicted: 0.7°C
-1/1/2025 2:00 | Actual: -0.5°C | Predicted: -0.2°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: 0.7°C
-1/1/2025 2:00 | Actual: 0.0°C | Predicted: -0.2°C
-1/1/2025 3:00 | Actual: -0.4°C | Predicted: -0.2°C
+===== Query: western cowboy =====
+Title: Let 'Em Have It (Score: 0.0581 , Genre: crime)
+Title: The Man They Couldn't Arrest (Score: 0.0436 , Genre: drama)
+Title: Dakota Lil (Score: 0.0405 , Genre: western)
+Title: Lal Dupatta Malmal Ka (Score: 0.0403 , Genre: unknown)
+Title: Oklahoma Cyclone (Score: 0.0390 , Genre: western)
+Title: Border Law (Score: 0.0366 , Genre: western)
+Title: Oliver Twist (Score: 0.0363 , Genre: literary drama)
+Title: The Man Outside (Score: 0.0357 , Genre: crime)
+Title: Outside the Law (Score: 0.0356 , Genre: film noir)
+Title: The Fire Raisers (Score: 0.0343 , Genre: drama)
+----------------------------------------
+Analysis complete
+Runtime: 353 seconds
+----------------------------------------

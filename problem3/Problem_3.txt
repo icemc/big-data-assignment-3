@@ -51,7 +51,8 @@ Then execute the job
 3. Total Execution Time
 -----------------------
 
-39m 50s
+Runtime: 20.53 minutes
+
 
 4. Sample Result
 ----------------
@@ -74,14 +75,6 @@ only showing top 5 rows
 Cluster centers for k = 2:
 Cluster 0: [-0.008979942942770741,1.0640422143514055E-4,1.033587620581166]
 Cluster 1: [0.008392169622231398,-9.943963797984722E-5,-0.965935161429741]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 2:
@@ -126,14 +119,6 @@ Cluster centers for k = 3:
 Cluster 0: [-0.10862393128965274,-0.13661494946441816,1.0338338039442043]
 Cluster 1: [-0.11559990696876994,-0.17201854246996806,-0.9660360070731646]
 Cluster 2: [1.0926737222309084,1.5061936535159726,-0.16123565921132527]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 3:
@@ -180,14 +165,6 @@ Cluster 0: [-0.08138652543728259,-0.1435837752206699,1.0338140001458063]
 Cluster 1: [-0.063655129104506,-0.15826474464011686,-0.9660621788254502]
 Cluster 2: [2.463015865342828,-0.1857723891092076,-0.031581837898300255]
 Cluster 3: [-0.6780044171062762,1.9465332121356684,-0.06739723496514716]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 4:
@@ -236,14 +213,6 @@ Cluster 1: [-0.001257873459352821,-0.03476465218257271,-0.9661208928147109]
 Cluster 2: [1.2282880996348875,-1.9999795834494811,-0.022525547573941606]
 Cluster 3: [-2.587159113697294,-0.10185812980072875,-0.019506043060366175]
 Cluster 4: [0.7302862818775466,1.957427342924483,-0.0861037883622743]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 5:
@@ -294,14 +263,6 @@ Cluster 2: [-2.939471846573832,0.3884533018764781,-0.015384374915552891]
 Cluster 3: [2.970156679896297,-0.47478242991998115,-0.008030004444895732]
 Cluster 4: [0.10824531014888826,0.6152601809584184,1.0336840420647986]
 Cluster 5: [0.13760235110002447,0.617348802519602,-0.9659638011195392]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 6:
@@ -354,14 +315,6 @@ Cluster 3: [-0.20781677757754105,-1.0345615323730308,1.0335435103721544]
 Cluster 4: [-2.981438419970131,0.34925899280459416,-0.007690651476694068]
 Cluster 5: [0.07666004267376218,0.25542163540443436,-0.9660243236528849]
 Cluster 6: [2.966335053643914,-0.4644497785051239,-0.008111043035491644]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 7:
@@ -416,14 +369,6 @@ Cluster 4: [0.20657920759644036,2.7910460832957003,-0.035397949493512035]
 Cluster 5: [-0.15248887472131126,-0.5300447097692692,1.0337930716105213]
 Cluster 6: [-2.988895411472055,0.3371046799034632,-0.006877271929003494]
 Cluster 7: [-0.2486727386237331,-2.8131781274961383,-0.04041784170529712]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 8:
@@ -480,14 +425,6 @@ Cluster 5: [-0.15724625851848403,-0.5179401631853968,1.0338203222048612]
 Cluster 6: [-0.4196823966475496,0.3999866861204485,-0.9658016731055163]
 Cluster 7: [-0.26580792160844574,-2.90976209769088,0.10522928604379161]
 Cluster 8: [3.335331481939326,-0.5661710458874727,0.1552649111111958]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 9:
@@ -546,14 +483,6 @@ Cluster 6: [-0.746025883717244,-0.053870579777751414,1.0338302478057866]
 Cluster 7: [-0.5055719581031669,-2.781087875114051,-0.028404614768758756]
 Cluster 8: [-3.878480715288867,0.5070758977784019,-0.0071716614305728475]
 Cluster 9: [0.05314368630509668,2.8852055559834455,-0.041713711012257036]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 10:
@@ -614,14 +543,6 @@ Cluster 7: [-0.04438472332240319,-3.0287476955539634,-0.1050050855933255]
 Cluster 8: [3.9255333633663367,-0.8037825537471018,-0.05167178234325841]
 Cluster 9: [0.08151717002492158,2.8984898078223824,-0.249576948136014]
 Cluster 10: [-0.8589591207394257,-0.799877012343776,1.033383176996497]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 11:
@@ -684,14 +605,6 @@ Cluster 8: [0.4335451176944425,-1.082721565654279,-0.9658288185837661]
 Cluster 9: [0.12582022403356116,3.0834824706250945,0.3257144910502525]
 Cluster 10: [3.885341090195292,-0.7506181104904839,0.17405644050128538]
 Cluster 11: [0.055199721642976304,-0.002456147860133287,-0.9659548791465824]
-root
- |-- sensor1: double (nullable = true)
- |-- sensor2: double (nullable = true)
- |-- sensor3: double (nullable = true)
- |-- runId: integer (nullable = true)
- |-- features: vector (nullable = true)
- |-- normalizedFeatures: vector (nullable = true)
- |-- cluster: integer (nullable = false)
 
 
 Top-25 outliers for k = 12:
@@ -738,3 +651,8 @@ Cluster sizes:
 |     10| 195867|
 |     11|3276713|
 +-------+-------+
+
+----------------------------------------
+Analysis complete
+Runtime: 1232 seconds
+----------------------------------------

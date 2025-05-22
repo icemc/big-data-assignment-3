@@ -46,10 +46,11 @@ object WikipediaMoviePlotLSA {
       .option("header", "true")
       .option("quote", "\"")
       .option("escape", "\"")
+      .option("multiLine", "true")
       .schema(movieSchema)
       .csv(dataPath)
       .select("Title", "Genre", "Plot")
-      .filter($"Plot".isNotNull) // Filter out empty or very short plots
+      // .filter($"Plot".isNotNull) // Filter out empty or very short plots
 
     // Cache the DataFrame for better performance
     moviePlotsDF.cache()
@@ -313,10 +314,7 @@ object WikipediaMoviePlotLSA {
       val results = topDocsForTermQuery(US, svd.V, queryVec)
 
       results.foreach { case (title, genre, score) =>
-        println(f"Title: $title")
-        println(f"Score: $score%.4f")
-        println(f"Genre: $genre")
-        println("---")
+        println(f"Title: $title (Score: $score%.4f , Genre: $genre)")
       }
     }
 
