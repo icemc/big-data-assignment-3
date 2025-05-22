@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration - edit these values as needed
-JAR_FILE="../output/RunLSA.jar"          # Path to your compiled JAR file
+JAR_FILE="../output/WikipediaMoviePlotsLSA.jar"          # Path to your compiled JAR file
 DEFAULT_INPUT="../../input/movie_plots/wiki_movie_plots_deduped.csv"   # Default input file
 DEFAULT_STOPWORDS="../../input/stopwords.txt" # Default stopwords file
 SPARK_OPTS="--master local[*] --executor-memory 16G --driver-memory 16G"  # Spark configuration
@@ -66,7 +66,7 @@ echo "  Spark opts:    $SPARK_OPTS"
 echo "----------------------------------------"
 
 spark-submit \
-  --class RunLSA \
+  --class WikipediaMoviePlotsLSA \
   $SPARK_OPTS \
   $JAR_FILE \
   $INPUT_DIR \

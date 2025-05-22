@@ -13,11 +13,11 @@ libraryDependencies ++= Seq(
 
 lazy val root = (project in file("."))
   .settings(
-    name := "LSAWikipediaMoviePlot"
+    name := "WikipediaMoviePlotLSA"
   )
 
 // Assembly settings
-assembly / assemblyJarName := "RunLSA.jar"
+assembly / assemblyJarName := "WikipediaMoviePlotLSA.jar"
 
 // Merge strategy for assembly
 assembly / assemblyMergeStrategy := {

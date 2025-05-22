@@ -12,7 +12,7 @@ import edu.stanford.nlp.ling.CoreAnnotations._
 import scala.collection.JavaConverters._
 import scala.collection.{immutable, mutable}
 
-object RunLSA {
+object WikipediaMoviePlotLSA {
   def main(args: Array[String]): Unit = {
 
     val dataPath = if (args.length > 0) args(0) else "../../input/movie_plots/wiki_movie_plots_deduped.csv"

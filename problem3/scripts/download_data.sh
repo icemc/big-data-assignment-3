@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Define paths
-DOWNLOAD_URL="https://archive.org/download/audioscrobbler/audioscrobbler.zip"
-ZIP_FILE="../../audioscrobbler.zip"
+DOWNLOAD_URL="https://www.kaggle.com/api/v1/datasets/download/hetarthchopra/gearbox-fault-detection-dataset-phm-2009-nasa"
+ZIP_FILE="../../gearbox.zip"
 DEST_DIR="../../input"
 
 # Check if destination directory exists and contains files
-if [ -d "$DEST_DIR/audioscrobbler" ] && [ -n "$(ls -A "$DEST_DIR/audioscrobbler" 2>/dev/null)" ]; then
-    echo "Destination directory already exists and contains files: $(realpath "$DEST_DIR/audioscrobbler")"
+if [ -d "$DEST_DIR/gearbox" ] && [ -n "$(ls -A "$DEST_DIR/gearbox" 2>/dev/null)" ]; then
+    echo "Destination directory already exists and contains files: $(realpath "$DEST_DIR/gearbox")"
     echo "Skipping download and extraction."
     exit 0
 fi
@@ -32,7 +32,7 @@ import os
 from pathlib import Path
 
 zip_path = Path("$ZIP_FILE")
-dest_dir = Path("$DEST_DIR")
+dest_dir = Path("$DEST_DIR/gearbox")
 
 # Open the zip file and extract all files, overwriting existing ones
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:

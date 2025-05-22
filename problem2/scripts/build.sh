@@ -6,7 +6,7 @@ PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
 LIB_DIR="$PROJECT_ROOT/lib"
 OUTPUT_DIR="$PROJECT_ROOT/output"
 SRC_DIR="$PROJECT_ROOT/src/main/scala"
-FAT_JAR_NAME="RunLSA.jar"
+FAT_JAR_NAME="WikipediaMoviePlotLSA.jar"
 
 # Stanford CoreNLP JARs to download
 STANFORD_JARS=(

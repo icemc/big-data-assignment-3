@@ -16,9 +16,19 @@ echo "Running gearbox outlier detection analysis with:"
 echo "  JAR file:    $(realpath $JAR_FILE)"
 echo "  Spark opts:  $SPARK_OPTS"
 
+# Record start time
+START_TIME=$(date +%s)
+
 spark-submit \
   --class GearboxOutlierDetection \
   $SPARK_OPTS \
   $JAR_FILE
 
-echo "Analysis complete. Results saved to report.txt"
+# Calculate runtime
+END_TIME=$(date +%s)
+RUNTIME=$((END_TIME - START_TIME))
+
+echo "----------------------------------------"
+echo "Analysis complete"
+echo "Runtime: $RUNTIME seconds"
+echo "----------------------------------------"
