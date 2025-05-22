@@ -41,6 +41,7 @@ build/
 */output/
 */input/
 input/*
+!input/stopwords.txt
 
 ### ignore all jar files
 *.jar
