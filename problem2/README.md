@@ -53,7 +53,7 @@ chmod +x *
 
 #### 1. Download data
 ```bash
-./download_noaa_data.sh
+./download_data.sh
 ```
 
 #### 2. Build

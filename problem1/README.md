@@ -158,7 +158,13 @@ chmod +x *.sh
     module load lang/Scala/2.12.15
     ```
 
-Now you are all set to run the code on the HPC.
+- Load the spark module
+
+    ```bash
+    module load devel/Spark/3.5.4-foss-2023b-Java-17
+    ```
+
+Now you are all set to build and run the code on the HPC.
 
 #### 3. Build the fat Jar
 
@@ -192,11 +198,28 @@ scripts/
 └── RunLSASimpleTokenizer/              # For all RunLSASimpleTokenizer (LSA with with regex)
     ├── model_terms5000_k25             # for RunLSASimpleTokenizer 1.0 5000 25
     ├── model_terms20000_k250           # for RunLSASimpleTokenizer 1.0 20000 250
-
-
 ```
 
+Now let's use one of these models to search we will use `RunLSA/model_terms5000_k25`
 
+```bash
+./search.sh ./RunLSA/model_terms5000_k25 "serious incident"  
+```
+
+**Sample search results**
+```
+Top Search results for 'serious incident':
+Impedance mismatch: 0.0173
+Antenna: 0.0146
+Propagation: 0.0120
+Normalized frequency: 0.0099
+Pascal: 0.0066
+Wave impedance: 0.0052
+Voyager: 0.0050
+K cell: 0.0050
+Cell: 0.0050
+Carrier frequency: 0.0046
+```
 
 | Script             | Purpose                                   |
 |--------------------|-------------------------------------------|
@@ -207,52 +230,97 @@ scripts/
 
 ## 📊 Sample Results
 
-Result analysis will be saved in `scripts/report.txt` file after job has completed.
+Result analysis will be saved in `scripts/results/<model_sample1.0_terms20000_k250_timestamp>.log` file after job has completed.
 
 ```text
-=== Problem 1 Results ===
+Top terms and documents in top concepts:
+Concept 0 terms: inaction, reassess, destabilise, stymie, adamantly, expansionism, bipartisan, disenfranchise, authoritarianism, fleeting, ruthlessly, encirclement, pressured, exuberant, subsidized, rapport, materiel, lackluster, expropriate, bulwark, yearning, demoralize, understate, northerner, outflank
+Concept 0 docs: 518 BC, 674 BC, 521 BC, 670 BC, 668 BC, 664 BC, Fergus, Agrona, 652 BC, 647 BC, 643 BC, 641 BC, 640 BC, 638 BC, 637 BC, 632 BC, 631 BC, 626 BC, 625 BC, 619 BC, 545 BC, Ergane, 516 BC, 515 BC, 514 BC
 
-== Part (b): Decision Tree with CrossValidator ==
-Best Parameters:
-- Impurity: entropy
-- Max Depth: 24
-- Max Bins: 100
+Concept 1 terms: calendar, julian, year, display, link, full, domini, anno, denomination, topic, prevalent, start, leap, condita, urbe, consulship, event, will, medieval, common, religion, era, tuesday, europe, thursday
+Concept 1 docs: 1050, 956, 1096, 1292, 1460, 1068, 1012, 1108, 1136, 1304, 1192, 1388, 1248, 1220, 1080, 1092, 1176, 1400, 1120, 1232, 1204, 1280, 1056, 1168, 1196
 
-Test Metrics:
-- Area under ROC: 0.4636
-- Area under PR: 0.0777
-- Accuracy: 0.8847
+Concept 2 terms: disambiguation, refer, may, also, county, uss, alfonso, mythology, antigua, greek, habitat, places, city, sinai, abbreviation, stand, following, pasteur, octavian, yamaha, cad, cbe, jug, risc, united
+Concept 2 docs: Habitat (disambiguation), I/O (disambiguation), 2061 (disambiguation), Rimsky-Korsakov (disambiguation), F-117 (disambiguation), Anglo-Saxon (disambiguation), Antigua (disambiguation), Sana (disambiguation), Bandana (disambiguation), Rhone (disambiguation), Micron (disambiguation), CPSU (disambiguation), Ceyx (disambiguation), Hardanger (disambiguation), Pasteur (disambiguation), Octavian (disambiguation), Yamaha (disambiguation), CBE (disambiguation), Jug (disambiguation), RISC (disambiguation), Peking (disambiguation), Cisco (disambiguation), Attica (disambiguation), Arian (disambiguation), Sinai (disambiguation)
 
-Execution Time: 5m 3s
+Concept 3 terms: decade, december, refer, january, last, gregorian, may, toc, designate, timeline, assassination, end, programming, will, county, begin, july, language, indigenous, century, pronounced, film, uss, list, international
+Concept 3 docs: 1400s BC (decade), 900s BC (decade), 800s BC (decade), 1300s BC (decade), 300s BC (decade), 700s BC (decade), 600s BC (decade), 400s BC (decade), 100s BC (decade), 1500s BC (decade), 1000s BC (decade), 1200s BC (decade), 1100s BC (decade), 1600s BC (decade), 200s BC (decade), 500s (decade), 1500s (decade), 1100s (decade), 900s (decade), 1300s (decade), 1200s (decade), 700s (decade), 800s (decade), 1600s (decade), 500s BC (decade)
 
-== Part (c): Decision Tree with TrainValidationSplit ==
-Best Parameters:
-- Impurity: entropy
-- Max Depth: 24
-- Max Bins: 100
+Concept 4 terms: refer, may, uss, alfonso, toc, county, variant, mythology, albert, greek, designate, alexander, dma, tethys, abbreviation, places, hack, huntington, deduction, charles, arc, fowler, submarine, commonly, following
+Concept 4 docs: D6, N-word, T3, AC, AC3, BT, It, M31, NF, MP, 68040, 6800, TS, UT, XA, AO, A0, Scotch-Irish, C5, SA, SF, MCS, QT, PK, PC
 
-Test Metrics:
-- Area under ROC: 0.4636
-- Area under PR: 0.0777
-- Accuracy: 0.8847
+Concept 5 terms: toc, designate, disambiguation, brabant, fiction, november, county, unesco, halo, fifteen, timeline, belgium, set, anniversary, netherlands, commonly, france, recognize, nations, international, event, compute, list, united, area
+Concept 5 docs: 2036, 2016, 2015, 2014, 2013, 2006, 2012, 2003, 2008, 2002, 1992, 1998, 1996, 1999, 2001, Hackney, Brabant, 2009, Murakami, 2007, 2004, 1985, Timeline of computing, 2005, List of U.S. states and territories by area
 
-Execution Time: 1m 14s
+Concept 6 terms: unknown, date, event, december, october, july, april, julian, display, link, full, prefix, september, start, will, wwii, leap, timeline, november, common, february, wwi, thursday, death, tuesday
+Concept 6 docs: 1949, 1673, 1676, 1679, 1678, 1681, 1682, 1683, 1684, 1693, 1694, 1696, 1698, 1704, 1702, 1705, 1709, 1712, 1719, 1718, 1715, 1669, 1668, 1667, 1660
 
-== Part (d): Random Forest with AgeCategory Target ==
-Best Parameters:
-- Impurity: gini
-- Max Depth: 12
-- Max Bins: 100
-- Num Trees: 20
+Concept 7 terms: october, september, april, december, february, july, november, notoc, august, county, domini, anno, condita, urbe, denomination, consulship, prevalent, january, june, medieval, year, era, march, method, roman
+Concept 7 docs: October 23, October 22, October 21, October 19, October 16, October 15, October 13, October 9, October 18, October 8, October 6, October 5, October 12, October 2, October 14, October 4, October 7, October 20, October 11, October 31, October 30, October 29, October 27, October 26, October 10
 
-Test Metrics:
-- Accuracy: 0.1739
-- Weighted Precision: 0.1622
-- Weighted Recall: 0.1739
-- F1: 0.1416
+Concept 8 terms: april, september, february, december, july, november, august, county, notoc, january, june, timeline, domini, anno, march, condita, urbe, denomination, consulship, prevalent, year, medieval, roman, era, method
+Concept 8 docs: April 7, April 24, April 25, April 10, April 21, April 11, April 27, April 3, April 8, April 19, April 20, April 5, April 17, April 14, April 23, April 18, April 9, April 2, April 22, April 28, April 13, April 29, April 16, April 26, April 1
 
-Execution Time: 33m 24s
+Concept 9 terms: september, december, july, unknown, february, november, date, timeline, event, august, january, june, attack, compute, county, march, hemisphere, technology, daylight, julian, day, summarize, film, equinox, start
+Concept 9 docs: September 9, September 8, September 29, September 25, September 24, September 26, September 20, September 19, September 18, September 15, September 13, September 12, September 10, September 17, September 5, September 3, September 7, September 6, September 14, September 11, September 27, September 22, September 30, September 4, September 23
 
-=== Total Execution Time ===
-39m 50s
+Concept 10 terms: february, december, july, november, january, county, august, june, draw, march, notoc, domini, anno, year, condita, urbe, winter, denomination, game, consulship, film, olympics, city, medal, prevalent
+Concept 10 docs: February 18, February 16, February 9, February 8, February 3, February 2, February 28, February 27, February 11, February 13, February 17, February 12, February 26, February 5, February 7, February 20, February 6, February 15, February 21, February 22, February 23, February 19, February 10, February 25, February 14
+
+Concept 11 terms: december, july, november, january, county, august, domini, anno, condita, urbe, denomination, consulship, prevalent, notoc, june, medieval, gregorian, year, era, method, roman, europe, frequently, march, death
+Concept 11 docs: December 29, December 13, December 14, December 20, December 19, December 22, December 10, December 30, December 12, December 9, December 27, December 11, December 26, December 24, December 1, December 2, December 3, December 4, December 5, December 6, December 18, December 17, December 25, December 16, December 31
+
+Concept 12 terms: december, february, september, july, april, october, toc, unknown, date, refer, calendar, julian, event, display, may, link, leap, full, disambiguation, tuesday, wednesday, friday, gregorian, will, common
+Concept 12 docs: December 29, December 13, December 14, December 20, December 19, December 22, December 10, December 30, December 12, December 9, December 27, December 11, December 26, December 24, December 1, December 2, December 3, December 4, December 5, December 6, December 18, December 17, December 25, December 16, December 31
+
+Concept 13 terms: december, january, september, november, gregorian, april, notoc, february, unknown, will, assassination, calendar, julian, date, hemisphere, last, display, refer, solstice, link, full, monday, wednesday, end, begin
+Concept 13 docs: December 29, December 13, December 14, December 20, December 19, December 22, December 10, December 30, December 12, December 9, December 27, December 11, December 26, December 24, December 1, December 2, December 3, December 4, December 5, December 6, December 18, December 17, December 25, December 16, December 31
+
+Concept 14 terms: july, november, september, february, april, october, december, refer, calendar, julian, display, may, toc, link, leap, full, decade, event, disambiguation, unknown, tuesday, thursday, wednesday, monday, friday
+Concept 14 docs: July 23, July 21, July 19, July 18, July 17, July 15, July 28, July 14, July 22, July 12, July 29, July 16, July 27, July 30, July 26, July 24, July 9, July 13, July 8, July 11, July 6, July 5, July 4, July 3, July 1
+
+Concept 15 terms: august, july, november, december, september, april, february, october, refer, julian, calendar, display, toc, unknown, link, full, leap, may, event, decade, tuesday, thursday, disambiguation, wednesday, monday
+Concept 15 docs: August 4, August 11, August 5, August 30, August 29, August 28, August 31, August 24, August 23, August 25, August 21, August 19, August 18, August 17, August 16, August 15, August 14, August 8, August 3, August 1, August 2, August 13, August 9, August 6, August 27
+
+Concept 16 terms: timeline, compute, technology, january, astronomy, physics, solar, thermodynamics, stellar, microscope, classical, mechanic, subatomic, electromagnetism, transportation, measurement, optics, communication, county, relativity, galaxy, atomic, particle, gravitational, motor
+Concept 16 docs: Timeline of computing 1950–79, Timeline of computing 1980–89, Timeline of computing 1990–99, Timeline of stellar astronomy, Timeline of solar astronomy, Timeline of microscope technology, Timeline of transportation technology, Timeline of communication technology, Timeline of thermodynamics, Timeline of classical mechanics, Timeline of Solar System astronomy, Timeline of particle physics technology, Timeline of atomic and subatomic physics, Timeline of motor and engine technology, Timeline of time measurement technology, Timeline of agriculture and food technology, Timeline of electromagnetism and classical optics, Timeline of black hole physics, Timeline of low-temperature technology, Timeline of gravitational physics and relativity, Timeline of medicine and medical technology, Timeline of diving technology, Timeline of telescopes, observatories, and observing technology, Timeline of astronomical maps, catalogs, and surveys, Timeline of states of matter and phase transitions
+
+Concept 17 terms: timeline, december, compute, june, technology, domini, anno, condita, urbe, denomination, consulship, prevalent, astronomy, august, medieval, decade, physics, era, unknown, frequently, method, november, february, event, thermodynamics
+Concept 17 docs: Timeline of computing 1950–79, Timeline of computing 1980–89, Timeline of computing 1990–99, Timeline of stellar astronomy, Timeline of solar astronomy, Timeline of microscope technology, Timeline of transportation technology, Timeline of communication technology, Timeline of thermodynamics, Timeline of classical mechanics, Timeline of particle physics technology, Timeline of Solar System astronomy, Timeline of atomic and subatomic physics, Timeline of motor and engine technology, Timeline of time measurement technology, Timeline of electromagnetism and classical optics, Timeline of agriculture and food technology, Timeline of black hole physics, Timeline of low-temperature technology, Timeline of gravitational physics and relativity, Timeline of medicine and medical technology, Timeline of diving technology, Timeline of telescopes, observatories, and observing technology, Timeline of astronomical maps, catalogs, and surveys, Timeline of states of matter and phase transitions
+
+Concept 18 terms: domini, anno, condita, urbe, consulship, denomination, prevalent, medieval, unknown, era, frequently, method, year, roman, europe, date, period, less, county, event, early, since, name, become, know
+Concept 18 docs: Denomination, 130 BC, 510 BC, 506 BC, 213 BC, 509 BC, 162 BC, 508 BC, 507 BC, 505 BC, 504 BC, 503 BC, 502 BC, 501 BC, 452 BC, 240 BC, 233 BC, 117 BC, 479 BC, 220 BC, 315 BC, 86 BC, 176 BC, 299 BC, 180 BC
+
+Concept 19 terms: toc, january, domini, anno, condita, urbe, denomination, consulship, prevalent, medieval, june, unknown, timeline, era, frequently, august, method, date, europe, refer, november, event, year, july, september
+Concept 19 docs: 2036, January 18, January 12, January 10, January 9, January 16, January 19, January 23, January 8, January 7, January 6, January 4, January 24, January 22, January 17, January 27, January 11, January 25, January 29, January 30, January 31, January 28, January 26, January 15, January 3
+
+Concept 20 terms: toc, march, november, domini, anno, condita, urbe, consulship, denomination, prevalent, unknown, medieval, brabant, january, era, date, frequently, europe, method, roman, period, less, june, year, early
+Concept 20 docs: 2036, 2016, 2015, 2014, 2013, 2006, Hackney, Brabant, Murakami, March 31, March 29, March 27, March 26, March 19, March 4, March 5, March 18, March 17, March 22, March 23, March 14, March 12, March 10, March 9, March 8
+
+Concept 21 terms: county, states, household, united, median, census, population, age, income, clinton, female, race, montgomery, name, list, male, average, somerset, density, family, area, city, america, state, american
+Concept 21 docs: Clinton County, Montgomery County, Cherokee County, Somerset County, Nassau County, Chambers County, Delaware County, Suffolk County, Adams County, Butler County, Columbia County, Coffee County, Frederick County, Baldwin County, Madison County, Hill County, Wayne County, Cleburne County, Blount County, Bibb County, Barbour County, Orange County, Carbon County, Butte County, Tioga County
+
+Concept 22 terms: uss, triton, scorpion, wasp, memphis, cole, constellation, navy, thompson, ohio, enterprise, ship, states, united, hornet, submarine, missouri, disambiguation, skate, name, maine, tang, reuben, arizona, carl
+Concept 22 docs: USS Triton, USS Scorpion, USS Wasp, USS Memphis, USS Cole, USS Constellation, USS Thompson, USS Ohio, USS Enterprise, USS Ticonderoga, USS Seawolf, USS Mustin, USS Somers, USS Vincennes, USS Hornet, USS Tullibee, USS Halibut, USS Gato, USS Argonaut, USS Missouri, USS Merrimack, USS Maine, USS Skate, USS George Washington, USS Tecumseh
+
+Concept 23 terms: alfonso, iii, uss, spain, disambiguation, king, castile, león, aragon, asturias, xii, monarch, kingdom, son, unify, precursor, list, pope, galicia, reign, afonso, barcelona, daughter, brother, moors
+Concept 23 docs: Alfonso VI, Alfonso V, Alfonso IV, Alfonso II, Alfonso I, Alfonso III, Alphonso I of Spain, Alfonso I of Asturias, Alfonso IV of León, Alfonso Jordan, Alfonso V of Aragon, Alfonso VI of León and Castile, Alfonso V of León, Alfonso IV of Aragon, Alfonso XIII of Spain, Alfonso VII of León and Castile, Alphons, Alfonso II of Aragon, Alfonso XII of Spain, Tamarite de Litera, Alfonso II of Asturias, Alfonso X of Castile, Alfonso XI of Castile, Alfonso III of Asturias, Alfonso the Battler
+
+Concept 24 terms: county, refer, timeline, march, calendar, domini, anno, unknown, condita, urbe, consulship, denomination, january, uss, prevalent, june, disambiguation, august, clinton, july, december, september, november, april, alfonso
+Concept 24 docs: Clinton County, Montgomery County, Somerset County, Suffolk County, Baldwin County, Madison County, Wayne County, Nassau County, Butte County, Tioga County, Orange County, Carbon County, Cherokee County, Chambers County, Delaware County, Butler County, Adams County, Cleburne County, Blount County, Bibb County, Barbour County, Monroe County, Coffee County, Columbia County, Frederick County
+
+Search results for query 'serious incident':
+Impedance mismatch: 0.0173
+Antenna: 0.0146
+Propagation: 0.0120
+Normalized frequency: 0.0099
+Pascal: 0.0066
+Wave impedance: 0.0052
+Voyager: 0.0050
+K cell: 0.0050
+Cell: 0.0050
+Carrier frequency: 0.0046
+
+----------------------------------------
+Runtime: 3745 seconds
 ```

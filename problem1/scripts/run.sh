@@ -10,7 +10,7 @@ DEFAULT_NUM_TERMS="5000"                             # Default number of terms
 DEFAULT_K="25"                                       # Default number of topics
 DEFAULT_DATA_PATH="../../input/wikipedia/articles/*/*" # Default data path
 DEFAULT_STOPWORDS="../../input/wikipedia/stopwords.txt" # Default stopwords file
-SPARK_OPTS="--master local[*] --executor-memory 16G --driver-memory 16G"  # Spark configuration
+SPARK_OPTS="--master local[*] --executor-memory 32G --driver-memory 32G"  # Spark configuration
 OUTPUT_DIR="results"                                 # Directory for log files
 mkdir -p "$OUTPUT_DIR"
 
