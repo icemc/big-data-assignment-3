@@ -1,16 +1,28 @@
 #!/bin/bash
+#SBATCH --job-name=lsa_prediction
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=12
+#SBATCH --time=02:00:00
+#SBATCH --mem=32G
+#SBATCH --output=lsa_%j.out
+#SBATCH --error=lsa_%j.err
+
+# Load required modules
+module load devel/Spark/3.5.4-foss-2023b-Java-17
+module load tools/cURL/8.3.0-GCCcore-13.2.0  # Ensure curl is available
 
 LIB_DIR="../lib"
 
 # Configuration - edit these values as needed
 JAR_FILE="../output/RunLSA.jar"                      # Path to your compiled JAR file
 DEFAULT_CLASS="RunLSA"                               # Default class to run
-DEFAULT_SAMPLE_SIZE="0.01"                           # Default sample size
+DEFAULT_SAMPLE_SIZE="1.0"                            # Default sample size
 DEFAULT_NUM_TERMS="5000"                             # Default number of terms
 DEFAULT_K="25"                                       # Default number of topics
 DEFAULT_DATA_PATH="../../input/wikipedia/articles/*/*" # Default data path
 DEFAULT_STOPWORDS="../../input/wikipedia/stopwords.txt" # Default stopwords file
-SPARK_OPTS="--master local[*] --executor-memory 16G --driver-memory 16G"  # Spark configuration
+SPARK_OPTS="--master local[*] --executor-memory 32G --driver-memory 32G"  # Spark configuration
 OUTPUT_DIR="results"                                 # Directory for log files
 mkdir -p "$OUTPUT_DIR"
 
@@ -21,14 +33,10 @@ usage() {
   echo "  sampleSize:      Double (default: $DEFAULT_SAMPLE_SIZE)"
   echo "  numTerms:        Integer (default: $DEFAULT_NUM_TERMS)"
   echo "  k:               Integer (default: $DEFAULT_K)"
-  # echo "  dataPath:        String (default: $DEFAULT_DATA_PATH)"
-  # echo "  stopwordsPath:   String (default: $DEFAULT_STOPWORDS)"
   echo ""
   echo "Examples:"
-  echo "  $0 RunLSA 0.01 5000 25" 
-  # \"../../input/wikipedia/articles/*/*\" \"../../input/wikipedia/stopwords.txt\""
+  echo "  $0 RunLSA 0.01 5000 25 "
   echo "  $0 RunLSASimpleTokenizer 0.05 10000 50"
-  # \"/new/data/path\" \"/new/stopwords.txt\""
   exit 1
 }
 
@@ -99,13 +107,12 @@ echo "----------------------------------------"
 
 spark-submit \
   --class $CLASS \
+  --jars "$(echo $LIB_DIR/*.jar | tr ' ' ',')" \
   $SPARK_OPTS \
   $JAR_FILE \
   $SAMPLE_SIZE \
   $NUM_TERMS \
   $K
-#  $DATA_PATH \
-#  $STOPWORDS_PATH
 
 # Calculate runtime
 END_TIME=$(date +%s)
@@ -114,8 +121,5 @@ RUNTIME=$((END_TIME - START_TIME))
 echo "----------------------------------------"
 echo "Runtime: $RUNTIME seconds"
 } 2>&1 | filter_spark_logs | tee "$LOG_FILE"
-
-# Also display output to console
-# cat "$LOG_FILE"
 
 exit 0

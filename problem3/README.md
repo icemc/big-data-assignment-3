@@ -121,7 +121,7 @@ After running the scripts several directories will be create containing sample d
 
 This data can the be used to plot a visual 3d representation of each cluster.
 
-**Not make sure you are in the scripts directory**
+**Note: Make sure you are in the scripts directory**
 
 
 1. Create and activate a python virtual environment (Python required)

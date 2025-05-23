@@ -48,3 +48,5 @@ rm "$ZIP_FILE"
 echo "Removed downloaded zip file: $ZIP_FILE"
 
 echo "Finished extracting files to $DEST_DIR"
+
+exit 0

@@ -6,7 +6,7 @@ RUN_SCRIPT="${SCRIPT_DIR}/run.sh"
 
 # Hyperparameters to test
 CLASSES=("RunLSA" "RunLSASimpleTokenizer")
-SAMPLE_SIZES=("0.01")
+SAMPLE_SIZES=("0.02")
 NUM_TERMS=("5000" "10000" "20000")
 K_VALUES=("25" "100" "250")
 

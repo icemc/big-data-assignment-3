@@ -10,7 +10,6 @@
 ### Load latest available Spark module
 #export MODULEPATH=/opt/apps/resif/iris/2019b/broadwell/modules/all
 #module load devel/Spark/2.4.3-intel-2019b-Hadoop-2.7-Java-1.8-Python-3.7.4
-module load env/release/2023b
 module load devel/Spark/3.5.4-foss-2023b-Java-17
 
 ### If you do not wish tmp dirs to be cleaned
@@ -128,3 +127,5 @@ if [[ -n "${SPARK_CLEAN_TEMP}" && ${SPARK_CLEAN_TEMP} -eq 1 ]]; then
 else
     echo "====== Not cleaning up: SPARK_CLEAN_TEMP=${SPARK_CLEAN_TEMP}"
 fi
+
+exit 0
